@@ -1,0 +1,21 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build
+bin/
+obj/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# User-specific
+appsettings.Development.json
+
+# OS
+.DS_Store
+Thumbs.db

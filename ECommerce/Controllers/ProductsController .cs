@@ -1,0 +1,25 @@
+﻿using ECommerce.Application.Features.Products.Commands.CreateProduct;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace ECommerce.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
+    {
+        private readonly ISender _sender;
+        public ProductsController(ISender sender)
+        {
+            _sender = sender;
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateProductCommand command)
+        {
+            var productId = await _sender.Send(command);
+
+            return Ok(productId);
+        }
+    }
+}
