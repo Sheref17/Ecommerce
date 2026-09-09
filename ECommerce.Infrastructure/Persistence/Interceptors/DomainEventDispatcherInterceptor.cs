@@ -8,12 +8,12 @@ namespace ECommerce.Infrastructure.Persistence.Interceptors;
 public class DomainEventDispatcherInterceptor
     : SaveChangesInterceptor
 {
-    private readonly DomainEventDispatcher _dispatcher;
+    private readonly IPublisher _publisher;
 
-    public DomainEventDispatcherInterceptor(
-        DomainEventDispatcher dispatcher)
+
+    public DomainEventDispatcherInterceptor(IPublisher publisher)
     {
-        _dispatcher = dispatcher;
+       _publisher = publisher;
     }
 
     public override async ValueTask<int> SavedChangesAsync(
@@ -38,7 +38,7 @@ public class DomainEventDispatcherInterceptor
 
         foreach (var domainEvent in domainEvents)
         {
-            await _dispatcher.DispatchAsync(domainEvent,cancellationToken);
+            await _publisher.Publish(domainEvent,cancellationToken);
         }
 
         foreach (var entity in entities)

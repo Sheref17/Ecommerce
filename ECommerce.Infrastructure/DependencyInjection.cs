@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.IRepositories;
+﻿using ECommerce.Application.Abstractions.Repositories;
+using ECommerce.Domain.IRepositories;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Persistence.Interceptors;
 using ECommerce.Infrastructure.Repositories;
@@ -18,7 +19,6 @@ namespace ECommerce.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services ,
             IConfiguration configuration) 
         {
-            services.AddScoped<DomainEventDispatcher>();
             services.AddScoped<DomainEventDispatcherInterceptor>();
             services.AddDbContext<ApplicationDbContext>((serviceProvider , options) =>
             {
@@ -31,6 +31,8 @@ namespace ECommerce.Infrastructure
             provider.GetRequiredService<ApplicationDbContext>());
 
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductReadRepository, ProductReadRepository>();
+
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             return services;
 
