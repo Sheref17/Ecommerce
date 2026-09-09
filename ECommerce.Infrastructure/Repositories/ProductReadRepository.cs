@@ -42,7 +42,10 @@ namespace ECommerce.Infrastructure.Repositories
                     p.Price.Currency,
                     p.Stock,
                     _context.Categories.Where(c => c.Id == p.CategoryId)
-                    .Select(c => c.Name).FirstOrDefault()!))
+                    .Select(c => c.Name).FirstOrDefault()! ,
+                     _context.Brands.Where(b => b.Id == p.BrandId)
+                     .Select(b => b.Name).FirstOrDefault()!
+                    ))
                 .ToListAsync(cancellationToken);
 
             return new PagedResult<ProductResponse>(items, filter.PageNumber, filter.PageSize, totalCount);
@@ -61,7 +64,10 @@ namespace ECommerce.Infrastructure.Repositories
                     p.Price.Currency,
                     p.Stock,
                     _context.Categories.Where(c => c.Id == p.CategoryId)
-                    .Select(c => c.Name).FirstOrDefault()!))
+                    .Select(c => c.Name).FirstOrDefault()! ,
+                      _context.Brands.Where(b => b.Id == p.BrandId)
+                     .Select(b => b.Name).FirstOrDefault()!
+                    ))
                 .FirstOrDefaultAsync(cancellationToken);
         }
     }

@@ -19,11 +19,12 @@ namespace ECommerce.Domain.Entities
         public int Stock { get; private set; }
 
         public int CategoryId { get; private set; }
+        public int BrandId { get; private set; }
 
         public bool IsActive { get; private set; }
 
         private Product() { }
-        private Product(string name, string description, Money price, int stock, int categoryId)
+        private Product(string name, string description, Money price, int stock, int categoryId, int brandId)
         {
             Name = name;
             Description = description;
@@ -31,8 +32,9 @@ namespace ECommerce.Domain.Entities
             Stock = stock;
             CategoryId = categoryId;
             IsActive = true;
+            BrandId = brandId;
         }
-        public static Product Create(string name, string description, Money price, int stock, int categoryId)
+        public static Product Create(string name, string description, Money price, int stock, int categoryId, int brandId)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Product name cannot be empty.");
@@ -45,8 +47,10 @@ namespace ECommerce.Domain.Entities
            
             if (categoryId <= 0)
                 throw new ArgumentException("Invalid category.");
+            if (brandId <= 0)
+                throw new ArgumentException("Invalid brand.");
 
-           var product = new Product(name, description, price, stock, categoryId);
+            var product = new Product(name, description, price, stock, categoryId , brandId);
 
             product.AddDomainEvent(new ProductCreatedDomainEvent(product));
             

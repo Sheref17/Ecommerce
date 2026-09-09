@@ -34,9 +34,17 @@ namespace ECommerce.Infrastructure.Persistence.Configurations
             builder.Property(x => x.CategoryId)
                 .IsRequired();
 
+            builder.Property(x => x.BrandId)
+                .IsRequired();
+
             builder.HasOne<Category>()
                 .WithMany()
                 .HasForeignKey(x => x.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne<Brand>()
+                .WithMany()
+                .HasForeignKey(x => x.BrandId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.OwnsOne(x => x.Price, money =>

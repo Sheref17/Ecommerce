@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace ECommerce.Application.Features.Products.Dtos
 {
     public record ProductResponse(int id, string name, string description,
-        decimal price, string currency, int stock, string categoryName);
+        decimal price, string currency, int stock, string categoryName , string BrandName);
    
 }

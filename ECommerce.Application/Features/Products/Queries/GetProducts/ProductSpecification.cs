@@ -16,6 +16,8 @@ namespace ECommerce.Application.Features.Products.Queries.GetProducts
             || product.Name.Contains(filter.Search)) &&
             (!filter.CategoryId.HasValue || 
             product.CategoryId == filter.CategoryId.Value) &&
+            (!filter.BrandId.HasValue ||
+            product.BrandId == filter.BrandId.Value) &&
             (!filter.MinPrice.HasValue ||
             product.Price.Amount >= filter.MinPrice.Value) &&
             (!filter.MaxPrice.HasValue ||
