@@ -37,6 +37,7 @@ namespace ECommerce.Infrastructure
             services.AddScoped<ICategoryReadRepository,CategoryReadRepository>();
             services.AddScoped<IOrderRepository,OrderRepository>();
             services.AddScoped<IOrderReadRepository,OrderReadRepository>();
+            services.AddScoped<IBasketRepository,BasketRepository>();
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             return services;

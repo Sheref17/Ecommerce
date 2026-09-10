@@ -24,7 +24,8 @@ namespace ECommerce.Domain.Entities
         public bool IsActive { get; private set; }
 
         private Product() { }
-        private Product(string name, string description, Money price, int stock, int categoryId, int brandId)
+        private Product(string name, string description, Money price, int stock,
+            int categoryId, int brandId)
         {
             Name = name;
             Description = description;
@@ -34,7 +35,8 @@ namespace ECommerce.Domain.Entities
             IsActive = true;
             BrandId = brandId;
         }
-        public static Product Create(string name, string description, Money price, int stock, int categoryId, int brandId)
+        public static Product Create(string name, string description, Money price, int stock, 
+            int categoryId, int brandId)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Product name cannot be empty.");
