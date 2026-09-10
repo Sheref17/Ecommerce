@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Domain.IRepositories
 {
-    public interface IProductRepository
+    public interface IOrderRepository
     {
-        Task AddAsync(Product product);
-        Task<Product?> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task AddAsync(Order order,CancellationToken cancellationToken);
 
-
-
+        Task<Order?> GetByIdAsync(int id,CancellationToken cancellationToken);
     }
 }

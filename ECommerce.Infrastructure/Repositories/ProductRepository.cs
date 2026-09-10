@@ -1,6 +1,7 @@
 ﻿using ECommerce.Domain.Entities;
 using ECommerce.Domain.IRepositories;
 using ECommerce.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace ECommerce.Infrastructure.Repositories
            await _context.Products.AddAsync(product);
         }
 
-      
+        public async Task<Product?> GetByIdAsync(int id,CancellationToken cancellationToken)
+        {
+            return await _context.Products.FirstOrDefaultAsync(x => x.Id == id,cancellationToken);
+        }
+
+
     }
 }

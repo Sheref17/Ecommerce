@@ -1,0 +1,61 @@
+﻿using ECommerce.Domain.Entities;
+using ECommerce.Domain.IRepositories;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrderCommand
+{
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, int>
+    {
+        private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateOrderCommandHandler(
+            IOrderRepository orderRepository,
+            IProductRepository productRepository,
+            IUnitOfWork unitOfWork)
+        {
+            _orderRepository = orderRepository;
+            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<int> Handle(CreateOrderCommand request,CancellationToken cancellationToken)
+        {
+            var order = Order.Create(request.UserId);
+          
+
+            foreach (var requestItem in request.Items)
+            {
+                var product = await _productRepository.GetByIdAsync(requestItem.ProductId,
+                    cancellationToken);
+
+                if (product is null)
+                    throw new KeyNotFoundException(
+                        $"Product with id {requestItem.ProductId} was not found.");
+
+                if (!product.IsActive)
+                    throw new InvalidOperationException($"Product '{product.Name}' is not active.");
+
+                if (product.Stock < requestItem.Quantity)
+                    throw new InvalidOperationException(
+                        $"Insufficient stock for product '{product.Name}'.");
+
+                order.AddItem(product.Id, requestItem.Quantity,product.Price.Amount);
+                product.DecreaseStock(requestItem.Quantity);
+            }
+         
+
+            await _orderRepository.AddAsync(order, cancellationToken);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return order.Id;
+        }
+    }
+}
