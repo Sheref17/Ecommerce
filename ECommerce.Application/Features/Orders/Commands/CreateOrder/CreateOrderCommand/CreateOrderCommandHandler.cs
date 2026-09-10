@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.Entities;
+﻿using ECommerce.Application.Abstractions.Repositories;
+using ECommerce.Domain.Entities;
 using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
@@ -13,21 +14,30 @@ namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrder
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateOrderCommandHandler(
             IOrderRepository orderRepository,
             IProductRepository productRepository,
+            ICurrentUserService userService,
             IUnitOfWork unitOfWork)
         {
             _orderRepository = orderRepository;
             _productRepository = productRepository;
+            _currentUserService = userService;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<int> Handle(CreateOrderCommand request,CancellationToken cancellationToken)
         {
-            var order = Order.Create(request.UserId);
+            var userId = _currentUserService.UserId;
+
+            if (userId is null)
+            {
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }
+            var order = Order.Create(userId.Value);
           
 
             foreach (var requestItem in request.Items)

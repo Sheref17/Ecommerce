@@ -4,6 +4,7 @@ using ECommerce.Application.Features.Baskets.Commands.RemoveItemFromBasket;
 using ECommerce.Application.Features.Baskets.Commands.UpdateBasketItemQuantity;
 using ECommerce.Application.Features.Baskets.Queries.GetBasketByUserId;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,13 +29,11 @@ namespace ECommerce.Controllers
 
             return NoContent();
         }
-
-        [HttpGet("{userId:int}")]
-        public async Task<IActionResult> GetByUserId( int userId,
-            CancellationToken cancellationToken)
+        [Authorize]
+        [HttpGet("basket")]
+        public async Task<IActionResult> GetMyBasket(CancellationToken cancellationToken)
         {
-            var basket = await _sender.Send(new GetBasketByUserIdQuery(userId),
-                cancellationToken);
+            var basket = await _sender.Send(new GetBasketQuery(),cancellationToken);
 
             if (basket is null)
                 return NotFound();

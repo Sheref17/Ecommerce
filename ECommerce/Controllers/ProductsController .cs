@@ -2,6 +2,7 @@
 using ECommerce.Application.Features.Products.Queries.GetProductById;
 using ECommerce.Application.Features.Products.Queries.GetProducts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +24,7 @@ namespace ECommerce.Controllers
 
             return Ok(productId);
         }
+        
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ProductFilter filter, CancellationToken cancellationToken)
         {

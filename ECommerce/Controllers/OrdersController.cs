@@ -6,6 +6,7 @@ using ECommerce.Application.Features.Orders.Commands.ShipOrder;
 using ECommerce.Application.Features.Orders.Commands.StartProcessingOrder;
 using ECommerce.Application.Features.Orders.Queries.GetOrderById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,8 +23,9 @@ namespace ECommerce.Controllers
             _sender = sender;
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateOrderCommand command,
+        public async Task<IActionResult> Create( CreateOrderCommand command,
             CancellationToken cancellationToken)
         {
             var orderId = await _sender.Send(command,cancellationToken);
@@ -31,17 +33,28 @@ namespace ECommerce.Controllers
             return Ok(orderId);
         }
 
+        [Authorize]
+        [HttpGet("myOrders")]
+        public async Task<IActionResult> GetMyOrders(CancellationToken cancellationToken)
+        {
+            var orders = await _sender.Send(new GetOrdersQuery(),cancellationToken);
+
+            return Ok(orders);
+        }
+
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id,CancellationToken cancellationToken)
         {
-            var order = await _sender.Send(new GetOrderByIdQuery(id),cancellationToken);
+            var order = await _sender.Send(new GetOrderByIdQuery(id),
+                cancellationToken);
 
             if (order is null)
                 return NotFound();
 
             return Ok(order);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}/confirm")]
         public async Task<IActionResult> Confirm(int id,CancellationToken cancellationToken)
         {

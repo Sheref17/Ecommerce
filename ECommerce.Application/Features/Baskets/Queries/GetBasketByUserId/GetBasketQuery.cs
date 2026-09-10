@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Baskets.Queries.GetBasketByUserId
 {
-    public record GetBasketByUserIdQuery(int UserId) : IRequest<BasketResponse?>;
+    public record GetBasketQuery : IRequest<BasketResponse?>;
 }

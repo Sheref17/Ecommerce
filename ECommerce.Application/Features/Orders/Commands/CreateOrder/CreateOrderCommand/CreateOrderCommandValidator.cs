@@ -11,9 +11,7 @@ namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrder
     {
         public CreateOrderCommandValidator()
         {
-            RuleFor(x => x.UserId)
-                .GreaterThan(0)
-                .WithMessage("Invalid user.");
+          
 
             RuleFor(x => x.Items)
                 .NotEmpty()

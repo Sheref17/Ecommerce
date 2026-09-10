@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Baskets.Commands.AddItemToBasket
 {
-    public record AddItemToBasketCommand(int UserId,int ProductId,int Quantity) : IRequest;
+    public record AddItemToBasketCommand(int ProductId,int Quantity) : IRequest;
 }

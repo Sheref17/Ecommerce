@@ -9,6 +9,9 @@ namespace ECommerce.Application.Abstractions.Repositories
 {
     public interface IOrderReadRepository
     {
-        Task<OrderResponse?> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<OrderResponse?> GetByIdAsync(int id, int userId ,
+            CancellationToken cancellationToken);
+        Task<IReadOnlyList<OrderResponse>> GetOrdersAsync(int userId,
+            CancellationToken cancellationToken);
     }
 }

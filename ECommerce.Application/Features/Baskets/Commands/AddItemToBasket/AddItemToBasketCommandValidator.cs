@@ -11,9 +11,7 @@ namespace ECommerce.Application.Features.Baskets.Commands.AddItemToBasket
     {
         public AddItemToBasketCommandValidator()
         {
-            RuleFor(x => x.UserId)
-                .GreaterThan(0)
-                .WithMessage("Invalid user.");
+            
 
             RuleFor(x => x.ProductId)
                 .GreaterThan(0)

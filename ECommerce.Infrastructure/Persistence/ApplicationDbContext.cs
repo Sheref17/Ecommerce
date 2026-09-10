@@ -1,5 +1,8 @@
 ﻿using ECommerce.Domain.Entities;
 using ECommerce.Domain.IRepositories;
+using ECommerce.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext , IUnitOfWork
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser 
+        , IdentityRole<int> , int>, IUnitOfWork
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

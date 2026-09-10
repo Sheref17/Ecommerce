@@ -9,31 +9,29 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Queries.GetOrderById
 {
-    public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, OrderResponse?>
+    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, 
+        IReadOnlyList<OrderResponse?>>
     {
         private readonly IOrderReadRepository _orderReadRepository;
         private readonly ICurrentUserService _currentUserService;
-
-        public GetOrderByIdQueryHandler(
-            IOrderReadRepository orderReadRepository,
-            ICurrentUserService currentUserService)
+        public GetOrdersQueryHandler(IOrderReadRepository orderReadRepository ,
+           ICurrentUserService currentUserService
+            )
         {
             _orderReadRepository = orderReadRepository;
             _currentUserService = currentUserService;
         }
 
-        public async Task<OrderResponse?> Handle(GetOrderByIdQuery request,
+        public async Task<IReadOnlyList<OrderResponse?>> Handle(GetOrdersQuery request,
             CancellationToken cancellationToken)
         {
             var userId = _currentUserService.UserId;
-
             if (userId is null)
             {
                 throw new UnauthorizedAccessException("User is not authenticated.");
             }
 
-            return await _orderReadRepository.GetByIdAsync(request.Id,userId.Value,
-                cancellationToken);
+            return await _orderReadRepository.GetOrdersAsync(userId.Value, cancellationToken);
         }
     }
 }

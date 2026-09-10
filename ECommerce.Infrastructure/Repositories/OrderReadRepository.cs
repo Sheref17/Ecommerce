@@ -19,11 +19,11 @@ namespace ECommerce.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<OrderResponse?> GetByIdAsync(int id,CancellationToken cancellationToken)
+        public async Task<OrderResponse?> GetByIdAsync(int id,int userId, CancellationToken cancellationToken)
         {
             return await _context.Orders
                 .AsNoTracking()
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && x.UserId == userId)
                 .Select(x => new OrderResponse(
                     x.Id,
                     x.UserId,
@@ -39,6 +39,27 @@ namespace ECommerce.Infrastructure.Repositories
                         .ToList()
                 ))
                 .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<IReadOnlyList<OrderResponse>> GetOrdersAsync(int userId,
+            CancellationToken cancellationToken)
+        {
+            return await _context.Orders
+                .AsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Select(x => new OrderResponse(
+                    x.Id,
+                    x.UserId,
+                    x.Status.ToString(),
+                    x.CreatedAt,
+                    x.Items.Sum(i => i.Quantity * i.UnitPrice),
+                    x.Items.Select(i => new OrderItemResponse(
+                        i.ProductId,
+                        i.Quantity,
+                        i.UnitPrice,
+                        i.Quantity * i.UnitPrice))
+                        .ToList()
+                )).ToListAsync(cancellationToken);
         }
     }
 }

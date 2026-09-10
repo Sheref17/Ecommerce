@@ -9,6 +9,6 @@ namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrder
 {
     public record CreateOrderItemRequest( int ProductId,int Quantity);
 
-    public record CreateOrderCommand(int UserId,IReadOnlyList<CreateOrderItemRequest> Items) 
+    public record CreateOrderCommand(IReadOnlyList<CreateOrderItemRequest> Items) 
         : IRequest<int>;
 }

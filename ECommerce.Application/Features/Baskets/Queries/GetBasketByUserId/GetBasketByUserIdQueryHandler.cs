@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Features.Baskets.Dtos;
+﻿using ECommerce.Application.Abstractions.Repositories;
+using ECommerce.Application.Features.Baskets.Dtos;
 using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
@@ -9,20 +10,29 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Baskets.Queries.GetBasketByUserId
 {
-    public class GetBasketByUserIdQueryHandler: IRequestHandler<GetBasketByUserIdQuery,
+    public class GetBasketByUserIdQueryHandler: IRequestHandler<GetBasketQuery,
         BasketResponse?>
     {
         private readonly IBasketRepository _basketRepository;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetBasketByUserIdQueryHandler(IBasketRepository basketRepository)
+        public GetBasketByUserIdQueryHandler(IBasketRepository basketRepository 
+            , ICurrentUserService currentUserService)
         {
             _basketRepository = basketRepository;
+            _currentUserService = currentUserService;
         }
 
-        public async Task<BasketResponse?> Handle(GetBasketByUserIdQuery request,
+        public async Task<BasketResponse?> Handle(GetBasketQuery request,
             CancellationToken cancellationToken)
         {
-            var basket = await _basketRepository.GetByUserIdAsync(request.UserId,
+            var userId = _currentUserService.UserId;
+
+            if (userId is null)
+            {
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }
+            var basket = await _basketRepository.GetByUserIdAsync(userId.Value,
                 cancellationToken);
 
             if (basket is null)
