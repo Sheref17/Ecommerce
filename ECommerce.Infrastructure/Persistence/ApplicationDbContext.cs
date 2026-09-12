@@ -39,5 +39,6 @@ namespace ECommerce.Infrastructure.Persistence
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
         public DbSet<Basket> Baskets => Set<Basket>();
         public DbSet<BasketItem> BasketItems => Set<BasketItem>();
+        public DbSet<Payment> Payments => Set<Payment>();
     }
 }

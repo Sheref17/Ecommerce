@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Features.Orders.Commands.CancelOrder;
+using ECommerce.Application.Features.Orders.Commands.Checkout;
 using ECommerce.Application.Features.Orders.Commands.ConfirmOrder;
 using ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrderCommand;
 using ECommerce.Application.Features.Orders.Commands.DeliverOrder;
@@ -29,6 +30,15 @@ namespace ECommerce.Controllers
             CancellationToken cancellationToken)
         {
             var orderId = await _sender.Send(command,cancellationToken);
+
+            return Ok(orderId);
+        }
+
+        [Authorize]
+        [HttpPost("checkout")]
+        public async Task<IActionResult> Checkout(CancellationToken cancellationToken)
+        {
+            var orderId = await _sender.Send(new CheckoutCommand(),cancellationToken);
 
             return Ok(orderId);
         }

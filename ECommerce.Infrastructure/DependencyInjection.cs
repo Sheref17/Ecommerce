@@ -74,7 +74,8 @@ namespace ECommerce.Infrastructure
             services.AddHttpContextAccessor();
 
             services.AddScoped< ICurrentUserService,CurrentUserService>();
-
+            services.AddScoped<IPaymentRepository,PaymentRepository>();
+            services.AddScoped<IPaymentService,PaymentService>();
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             return services;
