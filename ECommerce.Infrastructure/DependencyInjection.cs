@@ -1,15 +1,18 @@
 ﻿using ECommerce.Application.Abstractions.Repositories;
+using ECommerce.Application.Abstractions.Services;
 using ECommerce.Domain.IRepositories;
 using ECommerce.Infrastructure.Identity;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Persistence.Interceptors;
 using ECommerce.Infrastructure.Repositories;
+using ECommerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,8 +79,11 @@ namespace ECommerce.Infrastructure
             services.AddScoped< ICurrentUserService,CurrentUserService>();
             services.AddScoped<IPaymentRepository,PaymentRepository>();
             services.AddScoped<IPaymentService,PaymentService>();
-
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer
+                .Connect(configuration["Redis:ConnectionString"]!));
+            services.AddSingleton<ICacheService, CacheService>();
             return services;
 
         }
