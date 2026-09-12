@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Repositories;
+using ECommerce.Application.Abstractions.Services;
 using ECommerce.Application.Features.Authentication.Dtos;
 using MediatR;
 using System;

@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.Abstractions.Repositories;
+﻿using ECommerce.Application.Abstractions.Services;
 using ECommerce.Application.Features.Baskets.Dtos;
 using ECommerce.Domain.IRepositories;
 using MediatR;

@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.Abstractions.Repositories;
+﻿using ECommerce.Application.Abstractions.Services;
 using ECommerce.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerce.Infrastructure.Repositories
+namespace ECommerce.Infrastructure.Services
 {
     public class IdentityService : IIdentityService
     {

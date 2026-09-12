@@ -1,4 +1,4 @@
-﻿using ECommerce.Application.Abstractions.Repositories;
+﻿using ECommerce.Application.Abstractions.Services;
 using MediatR;
 using System;
 using System.Collections.Generic;

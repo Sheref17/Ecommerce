@@ -11,7 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerce.Infrastructure.Repositories
+namespace ECommerce.Infrastructure.Services
 {
     public class TokenService : ITokenService
     {
