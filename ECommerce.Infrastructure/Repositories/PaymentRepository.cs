@@ -30,5 +30,12 @@ namespace ECommerce.Infrastructure.Repositories
             return await _context.Payments
                 .FirstOrDefaultAsync(x => x.Id == id,cancellationToken);
         }
+
+        public async Task<Payment?> GetByOrderIdAsync(int orderId,
+            CancellationToken cancellationToken)
+        {
+            return await _context.Payments
+                .FirstOrDefaultAsync(x => x.OrderId == orderId,cancellationToken);
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace ECommerce.Domain.IRepositories
         Task AddAsync(Payment payment,CancellationToken cancellationToken);
 
         Task<Payment?> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<Payment?> GetByOrderIdAsync(int orderId,CancellationToken cancellationToken);
     }
 }

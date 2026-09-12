@@ -55,7 +55,7 @@ namespace ECommerce.Application.Features.Payments.Commands.CreatePayment
                     "You are not allowed to pay for this order.");
             }
 
-            var existingPayment = await _paymentRepository.GetByIdAsync(request.Id,
+            var existingPayment = await _paymentRepository.GetByOrderIdAsync(request.Id,
                 cancellationToken);
 
             if (existingPayment is not null)
