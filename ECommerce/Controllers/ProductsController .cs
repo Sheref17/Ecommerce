@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Features.Products.Commands.CreateProduct;
+using ECommerce.Application.Features.Products.Commands.UpdateProduct;
 using ECommerce.Application.Features.Products.Queries.GetProductById;
 using ECommerce.Application.Features.Products.Queries.GetProducts;
 using MediatR;
@@ -43,6 +44,18 @@ namespace ECommerce.Controllers
                 return NotFound();
 
             return Ok(product);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id,UpdateProductCommand command,
+            CancellationToken cancellationToken)
+        {
+            if (id != command.id)
+                return BadRequest();
+
+            await _sender.Send(command,cancellationToken);
+
+            return NoContent();
         }
     }
 }
