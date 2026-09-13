@@ -54,7 +54,7 @@ namespace ECommerce.Domain.Entities
 
             var product = new Product(name, description, price, stock, categoryId , brandId);
 
-            product.AddDomainEvent(new ProductCreatedDomainEvent(product));
+            product.AddDomainEvent(new ProductCreatedDomainEvent(product.Id));
             
             return product;
 
@@ -80,7 +80,7 @@ namespace ECommerce.Domain.Entities
             var oldStock = Stock;
 
             Stock += quantity;
-            AddDomainEvent(new ProductStockChangedDomainEvent(this, oldStock, Stock));
+            AddDomainEvent(new ProductStockChangedDomainEvent(Id, oldStock, Stock));
         }
         public void DecreaseStock(int quantity)
         {
@@ -92,7 +92,7 @@ namespace ECommerce.Domain.Entities
             var oldStock = Stock;
 
             Stock -= quantity;
-            AddDomainEvent(new ProductStockChangedDomainEvent(this, oldStock, Stock));
+            AddDomainEvent(new ProductStockChangedDomainEvent(Id, oldStock, Stock));
         }
         public void Activate()
         {

@@ -1,6 +1,7 @@
 ﻿using ECommerce.Domain.Entities;
 using ECommerce.Domain.IRepositories;
 using ECommerce.Infrastructure.Identity;
+using ECommerce.Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,10 @@ namespace ECommerce.Infrastructure.Persistence
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser 
         , IdentityRole<int> , int>, IUnitOfWork
     {
+        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,5 +41,6 @@ namespace ECommerce.Infrastructure.Persistence
         public DbSet<Basket> Baskets => Set<Basket>();
         public DbSet<BasketItem> BasketItems => Set<BasketItem>();
         public DbSet<Payment> Payments => Set<Payment>();
+        public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
     }
 }

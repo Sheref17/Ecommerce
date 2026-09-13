@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Domain.Events.Products
 {
-    public sealed record ProductCreatedDomainEvent(Product Product) : BaseDomainEvent;
+    public sealed record ProductCreatedDomainEvent(int ProductId) : BaseDomainEvent;
    
 }

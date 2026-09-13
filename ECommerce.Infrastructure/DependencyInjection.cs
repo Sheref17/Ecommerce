@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Abstractions.Repositories;
 using ECommerce.Application.Abstractions.Services;
 using ECommerce.Domain.IRepositories;
+using ECommerce.Infrastructure.BackgroundServices;
 using ECommerce.Infrastructure.Identity;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Persistence.Interceptors;
@@ -26,13 +27,16 @@ namespace ECommerce.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services ,
             IConfiguration configuration) 
         {
-            services.AddScoped<DomainEventDispatcherInterceptor>();
-            services.AddDbContext<ApplicationDbContext>((serviceProvider , options) =>
-            {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+           
+            services.AddScoped<OutboxSaveChangesInterceptor>();
+                services.AddDbContext<ApplicationDbContext>((serviceProvider , options) =>
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
-                options.AddInterceptors(serviceProvider.GetRequiredService<DomainEventDispatcherInterceptor>());
-            });
+                    options.AddInterceptors(serviceProvider
+                        .GetRequiredService<OutboxSaveChangesInterceptor>());
+                });
+            services.AddHostedService<DomainEventBackgroundService>();
             services.AddIdentityCore<ApplicationUser>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -63,6 +67,7 @@ namespace ECommerce.Infrastructure
 
             services.AddScoped<IUnitOfWork>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
+           
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
@@ -84,6 +89,7 @@ namespace ECommerce.Infrastructure
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer
                 .Connect(configuration["Redis:ConnectionString"]!));
             services.AddSingleton<ICacheService, CacheService>();
+            services.AddScoped<IOutboxRepository, OutboxRepository>();
             return services;
 
         }

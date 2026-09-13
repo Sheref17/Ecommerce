@@ -15,13 +15,12 @@ namespace ECommerce.Application.Features.Products.Commands.CreateProduct
             
         }
 
-   
-
-        public Task Handle(ProductCreatedDomainEvent notification, CancellationToken cancellationToken)
+        public Task Handle(ProductCreatedDomainEvent notification
+            , CancellationToken cancellationToken)
         {
-            var product = notification.Product;
-            _logger.LogInformation("Product created successfully. ProductId: {ProductId}, " +
-                "Name: {ProductName}", product.Id, product.Name);
+
+            _logger.LogInformation("Product created successfully. ProductId: {ProductId}",
+                notification.ProductId);
             return Task.CompletedTask;
         }
     }
