@@ -1,5 +1,6 @@
 ﻿using ECommerce.Domain.Common;
 using ECommerce.Domain.Enums;
+using ECommerce.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,10 +30,10 @@ namespace ECommerce.Domain.Entities
         public static Payment Create(Guid orderId,decimal amount)
         {
             if (orderId == Guid.Empty)
-                throw new ArgumentException("Invalid order.");
+                throw new DomainException("Invalid order.");
 
             if (amount <= 0)
-                throw new ArgumentException(
+                throw new DomainException(
                     "Payment amount must be greater than zero.");
 
             return new Payment(orderId, amount);
@@ -41,7 +42,7 @@ namespace ECommerce.Domain.Entities
         public void MarkAsPaid()
         {
             if (Status != PaymentStatus.Pending)
-                throw new InvalidOperationException(
+                throw new DomainException(
                     "Only pending payments can be marked as paid.");
 
             Status = PaymentStatus.Paid;
@@ -50,7 +51,7 @@ namespace ECommerce.Domain.Entities
         public void MarkAsFailed()
         {
             if (Status != PaymentStatus.Pending)
-                throw new InvalidOperationException(
+                throw new DomainException(
                     "Only pending payments can be marked as failed.");
 
             Status = PaymentStatus.Failed;

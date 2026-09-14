@@ -77,6 +77,7 @@ namespace ECommerce.Exceptions
                 return true;
             }
 
+       
             var problemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,

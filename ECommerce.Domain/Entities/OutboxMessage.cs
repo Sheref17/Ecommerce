@@ -17,7 +17,7 @@ namespace ECommerce.Domain.Entities
 
         private OutboxMessage(){}
 
-        public OutboxMessage(Guid id,string type,string content,    DateTime occurredOn)
+        public OutboxMessage(Guid id,string type,string content, DateTime occurredOn)
         {
             Id = id;
             Type = type;

@@ -11,6 +11,8 @@ namespace ECommerce.Domain.IRepositories
     {
         Task AddAsync(Product product);
         Task<Product?> GetByIdAsync(Guid id,CancellationToken cancellationToken);
+        Task<IReadOnlyList<Product>> GetByIdsAsync(IEnumerable<Guid> ids,
+            CancellationToken cancellationToken);
 
 
 

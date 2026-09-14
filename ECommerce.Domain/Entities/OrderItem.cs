@@ -1,4 +1,5 @@
 ﻿using ECommerce.Domain.Common;
+using ECommerce.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,14 +32,14 @@ namespace ECommerce.Domain.Entities
             decimal unitPrice)
         {
             if (productId == Guid.Empty)
-                throw new ArgumentException("Invalid product.");
+                throw new DomainException("Invalid product.");
 
             if (quantity <= 0)
-                throw new ArgumentException(
+                throw new DomainException(
                     "Quantity must be greater than zero.");
 
             if (unitPrice < 0)
-                throw new ArgumentException(
+                throw new DomainException(
                     "Unit price cannot be negative.");
 
             return new OrderItem( productId,quantity,unitPrice);
@@ -52,7 +53,7 @@ namespace ECommerce.Domain.Entities
         public void UpdateQuantity(int quantity)
         {
             if (quantity <= 0)
-                throw new ArgumentException("Quantity must be greater than zero.");
+                throw new DomainException("Quantity must be greater than zero.");
 
             Quantity = quantity;
         }

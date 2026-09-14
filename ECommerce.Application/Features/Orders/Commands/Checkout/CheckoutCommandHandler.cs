@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Abstractions.Services;
+﻿using ECommerce.Application.Abstractions.Repositories;
+using ECommerce.Application.Abstractions.Services;
 using ECommerce.Domain.Entities;
 using ECommerce.Domain.IRepositories;
 using MediatR;
@@ -35,55 +36,68 @@ namespace ECommerce.Application.Features.Orders.Commands.Checkout
         public async Task<Guid> Handle(CheckoutCommand request,
             CancellationToken cancellationToken)
         {
-            var userId = _currentUserService.UserId;
-
-
-            if (userId is null)
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+            try
             {
-                throw new UnauthorizedAccessException( "User is not authenticated.");
-            }
-            var basket = await _basketRepository.GetByUserIdAsync(userId.Value,
-                cancellationToken);
-
-            if (basket is null)
-            {
-                throw new InvalidOperationException("Basket not found.");
-            }
-
-            if (!basket.Items.Any())
-            {
-                throw new InvalidOperationException("Basket is empty.");
-            }
-
-            var order = Order.Create(userId.Value);
+                var userId = _currentUserService.UserId;
 
 
-            foreach (var item in basket.Items)
-            {
-                var product = await _productRepository.GetByIdAsync(item.ProductId,
+                if (userId is null)
+                {
+                    throw new UnauthorizedAccessException("User is not authenticated.");
+                }
+                var basket = await _basketRepository.GetByUserIdAsync(userId.Value,
                     cancellationToken);
 
-                if (product is null)
+                if (basket is null)
                 {
-                    throw new InvalidOperationException(
-                        $"Product with id {item.ProductId} not found.");
-                }
-                if (product.Stock < item.Quantity)
-                {
-                    throw new InvalidOperationException(
-                        $"Not enough stock for product {product.Name}.");
+                    throw new InvalidOperationException("Basket not found.");
                 }
 
-                order.AddItem(product.Id,item.Quantity,product.Price.Amount);
-                product.DecreaseStock(item.Quantity);
+                if (!basket.Items.Any())
+                {
+                    throw new InvalidOperationException("Basket is empty.");
+                }
+
+                var order = Order.Create(userId.Value);
+                var productIds = basket.Items.Select(x => x.ProductId).Distinct().ToList();
+                var products = await _productRepository.GetByIdsAsync(productIds,cancellationToken);
+                var productsById = products.ToDictionary(x => x.Id);
+
+
+
+                foreach (var item in basket.Items)
+                {
+                    if (!productsById.TryGetValue(item.ProductId, out var product))
+                    {
+                        throw new InvalidOperationException(
+                            $"Product with id {item.ProductId} not found.");
+                    }
+
+                    if (product.Stock < item.Quantity)
+                    {
+                        throw new InvalidOperationException(
+                            $"Not enough stock for product {product.Name}.");
+                    }
+
+                    order.AddItem(product.Id, item.Quantity, product.Price.Amount);
+                    product.DecreaseStock(item.Quantity);
+                }
+
+                await _orderRepository.AddAsync(order, cancellationToken);
+                basket.Clear();
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync(cancellationToken);
+
+                return order.Id;
+
             }
-
-            await _orderRepository.AddAsync(order,cancellationToken);
-            await _unitOfWork.SaveChangesAsync();
-            basket.Clear();
-
-            await _unitOfWork.SaveChangesAsync();
-            return order.Id;
+            catch
+            {
+                await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+                throw;
+            }
+           
         }
     }
 }

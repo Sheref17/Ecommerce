@@ -5,6 +5,7 @@ using ECommerce.Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace ECommerce.Infrastructure.Persistence
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser 
         , IdentityRole<int> , int>, IUnitOfWork
     {
-        
+        private IDbContextTransaction? _currentTransaction;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -31,6 +32,31 @@ namespace ECommerce.Infrastructure.Persistence
         public async Task<int> SaveChangesAsync()
         {
             return await base.SaveChangesAsync();
+        }
+
+        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            _currentTransaction =await Database.BeginTransactionAsync(cancellationToken);
+        }
+
+        public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            if (_currentTransaction is null)
+                return;
+
+            await _currentTransaction.CommitAsync(cancellationToken);
+            await _currentTransaction.DisposeAsync();
+            _currentTransaction = null;
+        }
+
+        public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            if (_currentTransaction is null)
+                return;
+
+            await _currentTransaction.RollbackAsync(cancellationToken);
+            await _currentTransaction.DisposeAsync();
+            _currentTransaction = null;
         }
 
         public DbSet<Product> Products => Set<Product>();

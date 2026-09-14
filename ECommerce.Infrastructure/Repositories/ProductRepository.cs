@@ -26,6 +26,12 @@ namespace ECommerce.Infrastructure.Repositories
         {
             return await _context.Products.FirstOrDefaultAsync(x => x.Id == id,cancellationToken);
         }
+        public async Task<IReadOnlyList<Product>> GetByIdsAsync(IEnumerable<Guid> ids,
+            CancellationToken cancellationToken)
+        {
+            return await _context.Products.Where(p => ids.Contains(p.Id))
+                .ToListAsync(cancellationToken);
+        }
 
 
     }

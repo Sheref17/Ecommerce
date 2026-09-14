@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerce.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,10 +25,10 @@ namespace ECommerce.Domain.ValueObjects
         public static Money Create(decimal amount, string currency)
         {
             if (amount < 0)
-                throw new ArgumentException("Amount cannot be negative.");
+                throw new DomainException("Amount cannot be negative.");
 
             if (string.IsNullOrWhiteSpace(currency))
-                throw new ArgumentException("Currency is required.");
+                throw new DomainException("Currency is required.");
 
             return new Money(amount, currency);
         }

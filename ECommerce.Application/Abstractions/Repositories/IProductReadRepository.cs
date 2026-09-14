@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Common;
 using ECommerce.Application.Features.Products.Dtos;
 using ECommerce.Application.Features.Products.Queries.GetProducts;
+using ECommerce.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace ECommerce.Application.Abstractions.Repositories
     {
         Task<PagedResult<ProductResponse>> GetAllProudcts(ProductFilter filter ,CancellationToken cancellationToken);
         Task<ProductResponse?> GetProductById(Guid id , CancellationToken cancellationToken);
+   
     }
 }

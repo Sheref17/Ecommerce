@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Abstractions.Services;
+﻿using ECommerce.Application.Abstractions.Repositories;
+using ECommerce.Application.Abstractions.Services;
 using ECommerce.Domain.Entities;
 using ECommerce.Domain.IRepositories;
 using MediatR;
@@ -38,16 +39,19 @@ namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrder
                 throw new UnauthorizedAccessException("User is not authenticated.");
             }
             var order = Order.Create(userId.Value);
-          
+            var productIds = request.Items.Select(x => x.ProductId).Distinct().ToList();
+            var products = await _productRepository.GetByIdsAsync(productIds, cancellationToken);
+            var productsById = products.ToDictionary(x => x.Id);
+
 
             foreach (var requestItem in request.Items)
             {
-                var product = await _productRepository.GetByIdAsync(requestItem.ProductId,
-                    cancellationToken);
-
-                if (product is null)
-                    throw new KeyNotFoundException(
-                        $"Product with id {requestItem.ProductId} was not found.");
+                if (!productsById.TryGetValue(requestItem.ProductId, out var product))
+                {
+                    throw new InvalidOperationException(
+                        $"Product with id {requestItem.ProductId} not found.");
+                }
+  
 
                 if (!product.IsActive)
                     throw new InvalidOperationException($"Product '{product.Name}' is not active.");
