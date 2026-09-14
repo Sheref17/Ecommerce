@@ -15,6 +15,7 @@ namespace ECommerce.Domain.Entities
         private Category() { }
         private Category(string name, string description)
         {
+            Id = Guid.NewGuid();
             Name = name;
             Description = description;
             IsActive = true;

@@ -12,7 +12,7 @@ namespace ECommerce.Application.Features.Products.Commands.UpdateProduct
         public UpdateProductCommandValidator()
         {
             RuleFor(x => x.id)
-                .GreaterThan(0);
+                .NotEmpty();
 
             RuleFor(x => x.name)
                 .NotEmpty()

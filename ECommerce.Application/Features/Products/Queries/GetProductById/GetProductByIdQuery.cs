@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Products.Queries.GetProductById
 {
-    public record GetProductByIdQuery(int Id)
-        : IRequest<ProductResponse>;
+    public record GetProductByIdQuery(Guid Id)
+        : IRequest<ProductResponse?>;
     
 }

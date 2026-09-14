@@ -9,7 +9,7 @@ namespace ECommerce.Domain.Entities
 {
     public class OrderItem : BaseEntity
     {
-        public int ProductId { get; private set; }
+        public Guid ProductId { get; private set; }
 
         public int Quantity { get; private set; }
 
@@ -19,17 +19,18 @@ namespace ECommerce.Domain.Entities
         {
         }
 
-        private OrderItem( int productId,int quantity,decimal unitPrice)
+        private OrderItem( Guid productId,int quantity,decimal unitPrice)
         {
+            Id = Guid.NewGuid();
             ProductId = productId;
             Quantity = quantity;
             UnitPrice = unitPrice;
         }
 
-        public static OrderItem Create(int productId,int quantity,
+        public static OrderItem Create(Guid productId,int quantity,
             decimal unitPrice)
         {
-            if (productId <= 0)
+            if (productId == Guid.Empty)
                 throw new ArgumentException("Invalid product.");
 
             if (quantity <= 0)

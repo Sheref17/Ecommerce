@@ -34,8 +34,8 @@ namespace ECommerce.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id,CancellationToken cancellationToken)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetById(Guid id,CancellationToken cancellationToken)
         {
             var product = await _sender.Send(new GetProductByIdQuery(id),
                 cancellationToken);
@@ -46,8 +46,8 @@ namespace ECommerce.Controllers
             return Ok(product);
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id,UpdateProductCommand command,
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Update(Guid id,UpdateProductCommand command,
             CancellationToken cancellationToken)
         {
             if (id != command.id)

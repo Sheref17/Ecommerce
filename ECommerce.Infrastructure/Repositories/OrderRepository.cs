@@ -24,7 +24,7 @@ namespace ECommerce.Infrastructure.Repositories
             await _context.Orders.AddAsync(order,cancellationToken);
         }
 
-        public async Task<Order?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return await _context.Orders.Include(x => x.Items)
                 .FirstOrDefaultAsync(x => x.Id == id,cancellationToken);

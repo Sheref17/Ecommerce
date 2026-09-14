@@ -18,15 +18,16 @@ namespace ECommerce.Domain.Entities
 
         public int Stock { get; private set; }
 
-        public int CategoryId { get; private set; }
-        public int BrandId { get; private set; }
+        public Guid CategoryId { get; private set; }
+        public Guid BrandId { get; private set; }
 
         public bool IsActive { get; private set; }
 
         private Product() { }
         private Product(string name, string description, Money price, int stock,
-            int categoryId, int brandId)
+            Guid categoryId, Guid brandId)
         {
+            Id = Guid.NewGuid();
             Name = name;
             Description = description;
             Price = price;
@@ -36,7 +37,7 @@ namespace ECommerce.Domain.Entities
             BrandId = brandId;
         }
         public static Product Create(string name, string description, Money price, int stock, 
-            int categoryId, int brandId)
+            Guid categoryId, Guid brandId)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Product name cannot be empty.");
@@ -47,9 +48,9 @@ namespace ECommerce.Domain.Entities
             if (stock < 0)
                 throw new ArgumentException("Stock cannot be negative.");
            
-            if (categoryId <= 0)
+            if (categoryId == Guid.Empty)
                 throw new ArgumentException("Invalid category.");
-            if (brandId <= 0)
+            if (brandId == Guid.Empty)
                 throw new ArgumentException("Invalid brand.");
 
             var product = new Product(name, description, price, stock, categoryId , brandId);

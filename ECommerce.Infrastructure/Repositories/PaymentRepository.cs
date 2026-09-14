@@ -24,14 +24,14 @@ namespace ECommerce.Infrastructure.Repositories
             await _context.Payments.AddAsync(payment,cancellationToken);
         }
 
-        public async Task<Payment?> GetByIdAsync(int id,
+        public async Task<Payment?> GetByIdAsync(Guid id,
             CancellationToken cancellationToken)
         {
             return await _context.Payments
                 .FirstOrDefaultAsync(x => x.Id == id,cancellationToken);
         }
 
-        public async Task<Payment?> GetByOrderIdAsync(int orderId,
+        public async Task<Payment?> GetByOrderIdAsync(Guid orderId,
             CancellationToken cancellationToken)
         {
             return await _context.Payments

@@ -10,24 +10,25 @@ namespace ECommerce.Domain.Entities
 {
     public class Payment : BaseEntity
     {
-        public int OrderId { get; private set; }
+        public Guid OrderId { get; private set; }
         public decimal Amount { get; private set; }
         public PaymentStatus Status { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
         private Payment() { }
 
-        private Payment(int orderId,decimal amount)
+        private Payment(Guid orderId,decimal amount)
         {
+            Id= Guid.NewGuid();
             OrderId = orderId;
             Amount = amount;
             Status = PaymentStatus.Pending;
             CreatedAt = DateTime.UtcNow;
         }
 
-        public static Payment Create(int orderId,decimal amount)
+        public static Payment Create(Guid orderId,decimal amount)
         {
-            if (orderId <= 0)
+            if (orderId == Guid.Empty)
                 throw new ArgumentException("Invalid order.");
 
             if (amount <= 0)

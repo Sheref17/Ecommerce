@@ -43,7 +43,7 @@ namespace ECommerce.Infrastructure.Repositories
             return new PagedResult<BrandResponse>(items,filter.PageNumber,filter.PageSize,totalCount);
         }
 
-        public async Task<BrandResponse?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<BrandResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return await _context.Brands.AsNoTracking()
                 .Where(x => x.Id == id)

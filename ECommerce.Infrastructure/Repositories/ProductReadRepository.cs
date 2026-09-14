@@ -52,7 +52,7 @@ namespace ECommerce.Infrastructure.Repositories
 
         }
 
-        public async Task<ProductResponse?> GetProductById(int id, CancellationToken cancellationToken)
+        public async Task<ProductResponse?> GetProductById(Guid id, CancellationToken cancellationToken)
         {
             return await _context.Products.AsNoTracking()
                 .Where(p=>p.Id == id)

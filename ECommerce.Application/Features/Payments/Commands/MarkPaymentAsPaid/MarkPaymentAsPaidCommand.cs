@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Payments.Commands.MarkPaymentAsPaid
 {
-    public record MarkPaymentAsPaidCommand(int PaymentId) : IRequest;
+    public record MarkPaymentAsPaidCommand(Guid PaymentId) : IRequest;
 }

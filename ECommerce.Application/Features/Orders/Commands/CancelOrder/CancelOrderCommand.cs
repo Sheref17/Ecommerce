@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Commands.CancelOrder
 {
-    public record CancelOrderCommand(int OrderId) : IRequest;
+    public record CancelOrderCommand(Guid OrderId) : IRequest;
 }

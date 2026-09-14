@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Categories.Commands.CreateCategory
 {
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Guid>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -19,7 +19,7 @@ namespace ECommerce.Application.Features.Categories.Commands.CreateCategory
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
 
             var category = Category.Create(request.Name, request.Description);

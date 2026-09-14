@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Baskets.Dtos
 {
-    public record BasketItemResponse( int ProductId,int Quantity);
+    public record BasketItemResponse( Guid ProductId,int Quantity);
 
-    public record BasketResponse(int Id,int UserId,IReadOnlyList<BasketItemResponse> Items);
+    public record BasketResponse(Guid Id,int UserId,IReadOnlyList<BasketItemResponse> Items);
 }

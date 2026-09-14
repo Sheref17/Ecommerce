@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Products.Commands.CreateProduct
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Guid>
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -19,7 +19,7 @@ namespace ECommerce.Application.Features.Products.Commands.CreateProduct
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var price = Money.Create(request.Price, request.Currency);
             var product = Product.Create(request.Name, request.Description, price, request.Stock, 

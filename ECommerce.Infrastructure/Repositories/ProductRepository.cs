@@ -22,7 +22,7 @@ namespace ECommerce.Infrastructure.Repositories
            await _context.Products.AddAsync(product);
         }
 
-        public async Task<Product?> GetByIdAsync(int id,CancellationToken cancellationToken)
+        public async Task<Product?> GetByIdAsync(Guid id,CancellationToken cancellationToken)
         {
             return await _context.Products.FirstOrDefaultAsync(x => x.Id == id,cancellationToken);
         }

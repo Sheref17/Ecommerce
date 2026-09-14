@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Products.Queries.GetProductById
 {
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, ProductResponse>
+    public class GetProductByIdQueryHandler 
+        : IRequestHandler<GetProductByIdQuery, ProductResponse?>
     {
         private readonly IProductReadRepository _productRepository;
         private readonly ICacheService _cacheService;
@@ -22,7 +23,7 @@ namespace ECommerce.Application.Features.Products.Queries.GetProductById
             _productRepository = repository;
             _cacheService = cacheService;
         }
-        public async Task<ProductResponse> Handle(GetProductByIdQuery request,
+        public async Task<ProductResponse?> Handle(GetProductByIdQuery request,
             CancellationToken cancellationToken)
         {
             var cacheKey = $"product:{request.Id}";

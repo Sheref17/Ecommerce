@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrderCommand
 {
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, int>
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
@@ -29,7 +29,7 @@ namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrder
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> Handle(CreateOrderCommand request,CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateOrderCommand request,CancellationToken cancellationToken)
         {
             var userId = _currentUserService.UserId;
 

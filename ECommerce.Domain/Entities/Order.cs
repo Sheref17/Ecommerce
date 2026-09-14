@@ -26,6 +26,7 @@ namespace ECommerce.Domain.Entities
 
         private Order(int userId)
         {
+            Id = Guid.NewGuid();
             UserId = userId;
             Status = OrderStatus.Pending;
             CreatedAt = DateTime.UtcNow;
@@ -39,14 +40,14 @@ namespace ECommerce.Domain.Entities
             return new Order(userId);
         }
 
-        public void AddItem(int productId,int quantity,decimal unitPrice)
+        public void AddItem(Guid productId,int quantity,decimal unitPrice)
         {
             var item = OrderItem.Create(productId,quantity,unitPrice);
 
             _items.Add(item);
         }
 
-        public void RemoveItem(int productId)
+        public void RemoveItem(Guid productId)
         {
             var item = _items.FirstOrDefault(x => x.ProductId == productId);
 

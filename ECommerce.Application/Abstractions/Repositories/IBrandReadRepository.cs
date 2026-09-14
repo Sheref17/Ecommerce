@@ -15,6 +15,6 @@ namespace ECommerce.Application.Abstractions.Repositories
         Task<PagedResult<BrandResponse>> GetAllAsync(BrandFilter filter,
             CancellationToken cancellationToken);
 
-        Task<BrandResponse?> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<BrandResponse?> GetByIdAsync(Guid id,CancellationToken cancellationToken);
     }
 }

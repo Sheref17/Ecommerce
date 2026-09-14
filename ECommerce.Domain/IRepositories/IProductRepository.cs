@@ -10,7 +10,7 @@ namespace ECommerce.Domain.IRepositories
     public interface IProductRepository
     {
         Task AddAsync(Product product);
-        Task<Product?> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<Product?> GetByIdAsync(Guid id,CancellationToken cancellationToken);
 
 
 

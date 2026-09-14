@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Categories.Commands.CreateCategory
 {
-    public record CreateCategoryCommand( string Name,string Description) : IRequest<int>;
+    public record CreateCategoryCommand( string Name,string Description) : IRequest<Guid>;
 }

@@ -12,6 +12,6 @@ namespace ECommerce.Application.Abstractions.Repositories
     public interface IProductReadRepository
     {
         Task<PagedResult<ProductResponse>> GetAllProudcts(ProductFilter filter ,CancellationToken cancellationToken);
-        Task<ProductResponse?> GetProductById(int id , CancellationToken cancellationToken);
+        Task<ProductResponse?> GetProductById(Guid id , CancellationToken cancellationToken);
     }
 }

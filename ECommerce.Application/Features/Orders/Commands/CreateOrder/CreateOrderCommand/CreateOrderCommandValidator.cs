@@ -21,7 +21,7 @@ namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrder
                 .ChildRules(item =>
                 {
                     item.RuleFor(x => x.ProductId)
-                        .GreaterThan(0)
+                        .NotEmpty()
                         .WithMessage("Invalid product.");
 
                     item.RuleFor(x => x.Quantity)

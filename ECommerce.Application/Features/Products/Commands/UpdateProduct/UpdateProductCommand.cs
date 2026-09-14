@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Products.Commands.UpdateProduct
 {
-    public record UpdateProductCommand(int id , string name , string description ,
+    public record UpdateProductCommand(Guid id , string name , string description ,
         decimal price , string Currency) : IRequest;
     
 }

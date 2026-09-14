@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 namespace ECommerce.Application.Features.Categories.Queries.GetCategoryById
 {
 
-    public record GetCategoryByIdQuery(int Id) : IRequest<CategoryResponse?>;
+    public record GetCategoryByIdQuery(Guid Id) : IRequest<CategoryResponse?>;
 }

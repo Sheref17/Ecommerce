@@ -30,11 +30,11 @@ namespace ECommerce.Application.Features.Products.Commands.CreateProduct
                 .GreaterThanOrEqualTo(0);
 
             RuleFor(x => x.CategoryId)
-                .GreaterThan(0)
+                .NotEmpty()
                 .WithMessage("Invalid category.");
 
             RuleFor(x => x.BrandId)
-                .GreaterThan(0)
+                .NotEmpty()
                 .WithMessage("Invalid brand.");
         }
     }

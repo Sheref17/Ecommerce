@@ -20,6 +20,7 @@ namespace ECommerce.Domain.Entities
         }
         private Brand(string name, string description)
         {
+            Id = Guid.NewGuid();
             Name = name;
             Description = description;
             IsActive = true;

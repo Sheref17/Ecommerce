@@ -52,7 +52,7 @@ namespace ECommerce.Infrastructure.Repositories
             return new PagedResult<CategoryResponse>(items,filter.PageNumber,filter.PageSize,totalCount);
         }
 
-        public async Task<CategoryResponse?> GetByIdAsync(int id,CancellationToken cancellationToken)
+        public async Task<CategoryResponse?> GetByIdAsync(Guid id,CancellationToken cancellationToken)
         {
             return await _context.Categories
                 .AsNoTracking()

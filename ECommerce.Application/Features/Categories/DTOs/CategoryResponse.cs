@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Categories.DTOs
 {
-    public record CategoryResponse( int Id,string Name,string Description,bool IsActive);
+    public record CategoryResponse(Guid Id,string Name,string Description,bool IsActive);
 }

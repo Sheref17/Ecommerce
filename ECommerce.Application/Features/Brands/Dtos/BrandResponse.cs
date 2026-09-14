@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Brands.Dtos
 {
-    public record BrandResponse(int Id, string Name, string Description, bool IsActive);
+    public record BrandResponse(Guid Id, string Name, string Description, bool IsActive);
 }

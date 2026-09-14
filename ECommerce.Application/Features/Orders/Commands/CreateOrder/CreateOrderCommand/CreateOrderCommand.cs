@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrderCommand
 {
-    public record CreateOrderItemRequest( int ProductId,int Quantity);
+    public record CreateOrderItemRequest(Guid ProductId,int Quantity);
 
     public record CreateOrderCommand(IReadOnlyList<CreateOrderItemRequest> Items) 
-        : IRequest<int>;
+        : IRequest<Guid>;
 }

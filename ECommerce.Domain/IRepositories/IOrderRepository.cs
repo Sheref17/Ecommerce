@@ -11,6 +11,6 @@ namespace ECommerce.Domain.IRepositories
     {
         Task AddAsync(Order order,CancellationToken cancellationToken);
 
-        Task<Order?> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<Order?> GetByIdAsync(Guid id,CancellationToken cancellationToken);
     }
 }

@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Baskets.Commands.RemoveItemFromBasket
 {
-    public record RemoveItemFromBasketCommand(int UserId, int ProductId) : IRequest;
+    public record RemoveItemFromBasketCommand(int UserId, Guid ProductId) : IRequest;
 }

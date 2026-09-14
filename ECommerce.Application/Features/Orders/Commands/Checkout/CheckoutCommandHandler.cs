@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Commands.Checkout
 {
-    public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, int>
+    public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, Guid>
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IBasketRepository _basketRepository;
@@ -32,7 +32,7 @@ namespace ECommerce.Application.Features.Orders.Commands.Checkout
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> Handle(CheckoutCommand request,
+        public async Task<Guid> Handle(CheckoutCommand request,
             CancellationToken cancellationToken)
         {
             var userId = _currentUserService.UserId;

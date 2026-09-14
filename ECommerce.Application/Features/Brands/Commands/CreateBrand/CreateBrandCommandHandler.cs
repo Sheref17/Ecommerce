@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Brands.Commands.CreateBrand
 {
-    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, int>
+    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Guid>
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ namespace ECommerce.Application.Features.Brands.Commands.CreateBrand
             _brandRepository = brandRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<int> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
            var brand = Brand.Create(request.Name, request.Description);
             await _brandRepository.AddAsync(brand , cancellationToken);

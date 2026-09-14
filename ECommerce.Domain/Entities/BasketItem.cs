@@ -9,21 +9,22 @@ namespace ECommerce.Domain.Entities
 {
     public class BasketItem : BaseEntity
     {
-        public int ProductId { get; private set; }
+        public Guid ProductId { get; private set; }
 
         public int Quantity { get; private set; }
 
         private BasketItem(){}
 
-        private BasketItem(int productId,int quantity)
+        private BasketItem(Guid productId,int quantity)
         {
+            Id = Guid.NewGuid();
             ProductId = productId;
             Quantity = quantity;
         }
 
-        public static BasketItem Create( int productId,int quantity)
+        public static BasketItem Create(Guid productId,int quantity)
         {
-            if (productId <= 0)
+            if (productId == Guid.Empty)
                 throw new ArgumentException("Invalid product.");
 
             if (quantity <= 0)

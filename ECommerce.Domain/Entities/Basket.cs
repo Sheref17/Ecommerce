@@ -19,6 +19,7 @@ namespace ECommerce.Domain.Entities
 
         private Basket(int userId)
         {
+            Id = Guid.NewGuid();
             UserId = userId;
         }
 
@@ -30,7 +31,7 @@ namespace ECommerce.Domain.Entities
             return new Basket(userId);
         }
 
-        public void AddItem(int productId,int quantity)
+        public void AddItem(Guid productId,int quantity)
         {
             var existingItem = _items.FirstOrDefault(x => x.ProductId == productId);
 
@@ -45,7 +46,7 @@ namespace ECommerce.Domain.Entities
             _items.Add(item);
         }
 
-        public void RemoveItem(int productId)
+        public void RemoveItem(Guid productId)
         {
             var item = _items.FirstOrDefault(x => x.ProductId == productId);
 
@@ -55,7 +56,7 @@ namespace ECommerce.Domain.Entities
             _items.Remove(item);
         }
 
-        public void UpdateItemQuantity(int productId,int quantity)
+        public void UpdateItemQuantity(Guid productId,int quantity)
         {
             var item = _items.FirstOrDefault(x => x.ProductId == productId);
 

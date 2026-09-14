@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Brands.Commands.CreateBrand
 {
-    public record CreateBrandCommand( string Name, string Description) : IRequest<int>;
+    public record CreateBrandCommand( string Name, string Description) : IRequest<Guid>;
 }

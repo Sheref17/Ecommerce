@@ -34,8 +34,8 @@ namespace ECommerce.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id,CancellationToken cancellationToken)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetById(Guid id,CancellationToken cancellationToken)
         {
             var category = await _sender.Send(new GetCategoryByIdQuery(id),cancellationToken);
 

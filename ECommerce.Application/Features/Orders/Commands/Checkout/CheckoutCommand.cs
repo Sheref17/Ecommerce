@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Commands.Checkout
 {
-    public record CheckoutCommand : IRequest<int>;
+    public record CheckoutCommand : IRequest<Guid>;
 }

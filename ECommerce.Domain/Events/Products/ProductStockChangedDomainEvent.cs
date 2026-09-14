@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Domain.Events.Products
 {
-    public sealed record ProductStockChangedDomainEvent(int ProductId, int OldStock,
+    public sealed record ProductStockChangedDomainEvent(Guid ProductId, int OldStock,
         int NewStock) : BaseDomainEvent;
    
 }

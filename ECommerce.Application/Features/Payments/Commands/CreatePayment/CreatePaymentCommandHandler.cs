@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Payments.Commands.CreatePayment
 {
-    public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, int>
+    public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, Guid>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IPaymentRepository _paymentRepository;
@@ -34,7 +34,7 @@ namespace ECommerce.Application.Features.Payments.Commands.CreatePayment
             _paymentService = paymentService;
         }
 
-        public async Task<int> Handle(CreatePaymentCommand request,
+        public async Task<Guid> Handle(CreatePaymentCommand request,
             CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetByIdAsync(request.Id,cancellationToken);

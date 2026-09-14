@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Commands.DeliverOrder
 {
-    public record DeliverOrderCommand(int OrderId) : IRequest;
+    public record DeliverOrderCommand(Guid OrderId) : IRequest;
 }

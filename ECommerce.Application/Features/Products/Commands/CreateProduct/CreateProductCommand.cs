@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace ECommerce.Application.Features.Products.Commands.CreateProduct
 {
     public record CreateProductCommand(string Name,string Description, decimal Price,string Currency,
-        int Stock, int CategoryId , int BrandId) : IRequest<int>;
+        int Stock, Guid CategoryId , Guid BrandId) : IRequest<Guid>;
 
 }

@@ -14,7 +14,7 @@ namespace ECommerce.Application.Features.Baskets.Commands.AddItemToBasket
             
 
             RuleFor(x => x.ProductId)
-                .GreaterThan(0)
+                .NotEmpty()
                 .WithMessage("Invalid product.");
 
             RuleFor(x => x.Quantity)

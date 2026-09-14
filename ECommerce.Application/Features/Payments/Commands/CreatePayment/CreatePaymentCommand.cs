@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Payments.Commands.CreatePayment
 {
-    public record CreatePaymentCommand(int Id) : IRequest<int>;
+    public record CreatePaymentCommand(Guid Id) : IRequest<Guid>;
 }

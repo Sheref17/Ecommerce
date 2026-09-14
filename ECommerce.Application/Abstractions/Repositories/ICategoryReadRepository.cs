@@ -13,6 +13,6 @@ namespace ECommerce.Application.Abstractions.Repositories
     {
         public Task<PagedResult<CategoryResponse>> GetAllAsync(CategoryFilter filter
             , CancellationToken cancellationToken);
-        public Task<CategoryResponse?> GetByIdAsync(int id, CancellationToken cancellationToken);
+        public Task<CategoryResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

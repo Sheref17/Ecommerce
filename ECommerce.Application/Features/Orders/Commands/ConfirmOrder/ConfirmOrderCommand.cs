@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Commands.ConfirmOrder
 {
-    public record ConfirmOrderCommand(int OrderId) : IRequest;
+    public record ConfirmOrderCommand(Guid OrderId) : IRequest;
 }

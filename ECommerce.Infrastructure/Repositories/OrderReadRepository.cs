@@ -19,7 +19,7 @@ namespace ECommerce.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<OrderResponse?> GetByIdAsync(int id,int userId, CancellationToken cancellationToken)
+        public async Task<OrderResponse?> GetByIdAsync(Guid id,int userId, CancellationToken cancellationToken)
         {
             return await _context.Orders
                 .AsNoTracking()

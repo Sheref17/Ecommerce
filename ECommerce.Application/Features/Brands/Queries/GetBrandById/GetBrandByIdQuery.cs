@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Brands.Queries.GetBrandById
 {
-    public record GetBrandByIdQuery(int Id) : IRequest<BrandResponse?>;
+    public record GetBrandByIdQuery(Guid Id) : IRequest<BrandResponse?>;
 }
