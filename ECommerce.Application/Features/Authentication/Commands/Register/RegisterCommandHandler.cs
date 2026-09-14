@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Services;
+using ECommerce.Domain.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -28,14 +29,14 @@ namespace ECommerce.Application.Features.Authentication.Commands.Register
 
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException(string.Join(", ", result.Errors));
+                throw new DomainException(string.Join(", ", result.Errors));
             }
             var roleAdded = await _identityService.AddToRoleAsync(result.UserId,"Customer",
                 cancellationToken);
 
             if (!roleAdded)
             {
-                throw new InvalidOperationException( "Failed to assign customer role.");
+                throw new DomainException( "Failed to assign customer role.");
             }
 
             return result.UserId;

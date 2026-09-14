@@ -28,7 +28,7 @@ namespace ECommerce.Application.Features.Payments.Commands.MarkPaymentAsPaid
                 cancellationToken);
             if (payment is null)
             {
-                throw new InvalidOperationException("Payment not found.");
+                throw new KeyNotFoundException("Payment not found.");
             }
             payment.MarkAsPaid();
             await _unitOfWork.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ECommerce.Domain.Exceptions;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace ECommerce.Infrastructure.Identity
 
                 if (!result.Succeeded)
                 {
-                    throw new InvalidOperationException(string.Join(", ",
+                    throw new DomainException(string.Join(", ",
                         result.Errors.Select(x => x.Description)));
                 }
             }
@@ -57,7 +58,7 @@ namespace ECommerce.Infrastructure.Identity
 
                 if (!result.Succeeded)
                 {
-                    throw new InvalidOperationException("Failed to assign Admin role.");
+                    throw new DomainException("Failed to assign Admin role.");
                 }
             }
         }

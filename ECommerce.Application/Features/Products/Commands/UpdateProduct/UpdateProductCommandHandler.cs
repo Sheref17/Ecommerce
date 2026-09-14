@@ -35,7 +35,7 @@ namespace ECommerce.Application.Features.Products.Commands.UpdateProduct
 
             if (product is null)
             {
-                throw new InvalidOperationException(
+                throw new KeyNotFoundException(
                     $"Product with id {request.id} not found.");
             }
             var price = Money.Create(request.price,request.Currency);

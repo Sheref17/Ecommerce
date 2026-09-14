@@ -77,7 +77,25 @@ namespace ECommerce.Exceptions
                 return true;
             }
 
-       
+            if (exception is UnauthorizedAccessException)
+            {
+                var unauthorizedproblemDetails = new ProblemDetails
+                {
+                    Status = StatusCodes.Status401Unauthorized,
+                    Title = "Unauthorized.",
+                    Detail = "Authentication is required to access this resource."
+                };
+
+                httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+                await httpContext.Response.WriteAsJsonAsync(
+                    unauthorizedproblemDetails,
+                    cancellationToken);
+
+                return true;
+            }
+
+
             var problemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,

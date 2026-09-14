@@ -18,6 +18,7 @@ namespace ECommerce.Controllers
             _sender = sender;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreatePaymentCommand command,
             CancellationToken cancellationToken)

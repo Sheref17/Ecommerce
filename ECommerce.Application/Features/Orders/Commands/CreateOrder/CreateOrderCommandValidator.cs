@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrderCommand
+namespace ECommerce.Application.Features.Orders.Commands.CreateOrder
 {
     public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     {

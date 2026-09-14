@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Abstractions.Repositories;
 using ECommerce.Application.Abstractions.Services;
 using ECommerce.Application.Features.Authentication.Dtos;
+using ECommerce.Domain.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace ECommerce.Application.Features.Authentication.Commands.Login
 
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException(string.Join(", ", result.Errors));
+                throw new DomainException(string.Join(", ", result.Errors));
             }
 
             var accessToken = await _tokenService

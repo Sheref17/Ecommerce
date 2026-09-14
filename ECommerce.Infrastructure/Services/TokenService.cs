@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstractions.Repositories;
+using ECommerce.Domain.Exceptions;
 using ECommerce.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +37,7 @@ namespace ECommerce.Infrastructure.Services
             var user = await _userManager.FindByIdAsync(userId.ToString());
 
             if (user is null)
-                throw new InvalidOperationException("User not found.");
+                throw new KeyNotFoundException("User not found.");
 
             var roles = await _userManager.GetRolesAsync(user);
 

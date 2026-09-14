@@ -1,5 +1,6 @@
 ﻿using ECommerce.Application.Abstractions.Services;
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
@@ -41,7 +42,7 @@ namespace ECommerce.Application.Features.Payments.Commands.CreatePayment
 
             if (order is null)
             {
-                throw new InvalidOperationException("Order not found.");
+                throw new KeyNotFoundException("Order not found.");
             }
             var userId = _currentUserService.UserId;
 
@@ -60,7 +61,7 @@ namespace ECommerce.Application.Features.Payments.Commands.CreatePayment
 
             if (existingPayment is not null)
             {
-                throw new InvalidOperationException("Payment already exists for this order.");
+                throw new DomainException("Payment already exists for this order.");
             }
 
             var amount = order.GetTotal();

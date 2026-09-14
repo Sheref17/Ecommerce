@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Abstractions.Repositories;
 using ECommerce.Application.Abstractions.Services;
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
@@ -51,12 +52,12 @@ namespace ECommerce.Application.Features.Orders.Commands.Checkout
 
                 if (basket is null)
                 {
-                    throw new InvalidOperationException("Basket not found.");
+                    throw new KeyNotFoundException("Basket not found.");
                 }
 
                 if (!basket.Items.Any())
                 {
-                    throw new InvalidOperationException("Basket is empty.");
+                    throw new DomainException("Basket is empty.");
                 }
 
                 var order = Order.Create(userId.Value);
@@ -70,13 +71,13 @@ namespace ECommerce.Application.Features.Orders.Commands.Checkout
                 {
                     if (!productsById.TryGetValue(item.ProductId, out var product))
                     {
-                        throw new InvalidOperationException(
+                        throw new KeyNotFoundException(
                             $"Product with id {item.ProductId} not found.");
                     }
 
                     if (product.Stock < item.Quantity)
                     {
-                        throw new InvalidOperationException(
+                        throw new DomainException(
                             $"Not enough stock for product {product.Name}.");
                     }
 
@@ -86,7 +87,7 @@ namespace ECommerce.Application.Features.Orders.Commands.Checkout
 
                 await _orderRepository.AddAsync(order, cancellationToken);
                 basket.Clear();
-                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
                 await _unitOfWork.CommitTransactionAsync(cancellationToken);
 
                 return order.Id;

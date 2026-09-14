@@ -2,6 +2,7 @@
 using ECommerce.Application.Features.Categories.Queries.GetCategories;
 using ECommerce.Application.Features.Categories.Queries.GetCategoryById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace ECommerce.Controllers
         {
             _sender = sender;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create( CreateCategoryCommand command)
         {

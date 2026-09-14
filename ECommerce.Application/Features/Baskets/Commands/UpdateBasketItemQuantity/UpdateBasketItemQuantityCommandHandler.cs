@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.IRepositories;
+﻿using ECommerce.Domain.Exceptions;
+using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -43,11 +44,11 @@ namespace ECommerce.Application.Features.Baskets.Commands.UpdateBasketItemQuanti
                     $"Product with id {request.ProductId} was not found.");
 
             if (!product.IsActive)
-                throw new InvalidOperationException(
+                throw new DomainException(
                     $"Product '{product.Name}' is not active.");
 
             if (product.Stock < request.Quantity)
-                throw new InvalidOperationException(
+                throw new DomainException(
                     $"Insufficient stock for product '{product.Name}'.");
 
             basket.UpdateItemQuantity(request.ProductId,request.Quantity);

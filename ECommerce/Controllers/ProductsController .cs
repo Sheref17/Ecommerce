@@ -18,6 +18,7 @@ namespace ECommerce.Controllers
         {
             _sender = sender;
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductCommand command)
         {
@@ -45,7 +46,7 @@ namespace ECommerce.Controllers
 
             return Ok(product);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> Update(Guid id,UpdateProductCommand command,
             CancellationToken cancellationToken)

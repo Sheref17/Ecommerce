@@ -1,5 +1,6 @@
 ﻿using ECommerce.Application.Abstractions.Services;
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
@@ -45,11 +46,11 @@ namespace ECommerce.Application.Features.Baskets.Commands.AddItemToBasket
                     $"Product with id {request.ProductId} was not found.");
 
             if (!product.IsActive)
-                throw new InvalidOperationException(
+                throw new DomainException(
                     $"Product '{product.Name}' is not active.");
 
             if (product.Stock < request.Quantity)
-                throw new InvalidOperationException(
+                throw new DomainException(
                     $"Insufficient stock for product '{product.Name}'.");
 
             var basket = await _basketRepository.GetByUserIdAsync(userId.Value,

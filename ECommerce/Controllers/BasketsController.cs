@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BasketsController : ControllerBase
@@ -29,7 +30,7 @@ namespace ECommerce.Controllers
 
             return NoContent();
         }
-        [Authorize]
+        
         [HttpGet("basket")]
         public async Task<IActionResult> GetMyBasket(CancellationToken cancellationToken)
         {

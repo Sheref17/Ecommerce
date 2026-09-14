@@ -2,6 +2,7 @@
 using ECommerce.Application.Features.Brands.Queries.GetBrandById;
 using ECommerce.Application.Features.Brands.Queries.GetBrands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace ECommerce.Controllers
         {
             _sender = sender;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateBrandCommand command,CancellationToken cancellationToken)
         {

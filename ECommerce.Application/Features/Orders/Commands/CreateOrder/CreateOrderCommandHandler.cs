@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Abstractions.Repositories;
 using ECommerce.Application.Abstractions.Services;
 using ECommerce.Domain.Entities;
+using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrderCommand
+namespace ECommerce.Application.Features.Orders.Commands.CreateOrder
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
     {
@@ -48,16 +49,16 @@ namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrder
             {
                 if (!productsById.TryGetValue(requestItem.ProductId, out var product))
                 {
-                    throw new InvalidOperationException(
+                    throw new KeyNotFoundException(
                         $"Product with id {requestItem.ProductId} not found.");
                 }
   
 
                 if (!product.IsActive)
-                    throw new InvalidOperationException($"Product '{product.Name}' is not active.");
+                    throw new DomainException($"Product '{product.Name}' is not active.");
 
                 if (product.Stock < requestItem.Quantity)
-                    throw new InvalidOperationException(
+                    throw new DomainException(
                         $"Insufficient stock for product '{product.Name}'.");
 
                 order.AddItem(product.Id, requestItem.Quantity,product.Price.Amount);
@@ -67,7 +68,7 @@ namespace ECommerce.Application.Features.Orders.Commands.CreateOrder.CreateOrder
 
             await _orderRepository.AddAsync(order, cancellationToken);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return order.Id;
         }
