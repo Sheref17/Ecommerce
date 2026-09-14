@@ -1,5 +1,6 @@
 ﻿using ECommerce.Domain.Common;
 using ECommerce.Domain.Events.Products;
+using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -40,18 +41,18 @@ namespace ECommerce.Domain.Entities
             Guid categoryId, Guid brandId)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Product name cannot be empty.");
+                throw new DomainException("Product name cannot be empty.");
            
             if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Product description cannot be empty.");
+                throw new DomainException("Product description cannot be empty.");
            
             if (stock < 0)
-                throw new ArgumentException("Stock cannot be negative.");
+                throw new DomainException("Stock cannot be negative.");
            
             if (categoryId == Guid.Empty)
-                throw new ArgumentException("Invalid category.");
+                throw new DomainException("Invalid category.");
             if (brandId == Guid.Empty)
-                throw new ArgumentException("Invalid brand.");
+                throw new DomainException("Invalid brand.");
 
             var product = new Product(name, description, price, stock, categoryId , brandId);
 
@@ -63,10 +64,10 @@ namespace ECommerce.Domain.Entities
         public void Update(string name, string description, Money price)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Product name cannot be empty.");
+                throw new DomainException("Product name cannot be empty.");
            
             if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Product description cannot be empty.");
+                throw new DomainException("Product description cannot be empty.");
            
    
             Name = name;
@@ -76,7 +77,7 @@ namespace ECommerce.Domain.Entities
         public void IncreaseStock(int quantity)
         {
             if (quantity <= 0)
-                throw new ArgumentException("Quantity must be greater than zero.");
+                throw new DomainException("Quantity must be greater than zero.");
 
             var oldStock = Stock;
 
@@ -86,9 +87,9 @@ namespace ECommerce.Domain.Entities
         public void DecreaseStock(int quantity)
         {
             if (quantity <= 0)
-                throw new ArgumentException("Quantity must be greater than zero.");
+                throw new DomainException("Quantity must be greater than zero.");
             if (quantity > Stock)
-                throw new InvalidOperationException("Insufficient stock.");
+                throw new DomainException("Insufficient stock.");
 
             var oldStock = Stock;
 

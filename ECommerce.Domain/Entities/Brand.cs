@@ -1,4 +1,5 @@
 ﻿using ECommerce.Domain.Common;
+using ECommerce.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,10 +29,10 @@ namespace ECommerce.Domain.Entities
         public static Brand Create(string name, string description)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Brand name is required.");
+                throw new DomainException("Brand name is required.");
 
             if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Brand description is required.");
+                throw new DomainException("Brand description is required.");
 
             return new Brand(name,description);
         }
@@ -39,10 +40,10 @@ namespace ECommerce.Domain.Entities
         public void Update(string name,string description)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Brand name is required.");
+                throw new DomainException("Brand name is required.");
 
             if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Brand description is required.");
+                throw new DomainException("Brand description is required.");
 
             Name = name;
             Description = description;

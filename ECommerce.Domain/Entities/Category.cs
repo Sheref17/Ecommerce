@@ -1,4 +1,5 @@
 ﻿using ECommerce.Domain.Common;
+using ECommerce.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,11 @@ namespace ECommerce.Domain.Entities
         {
             if(string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentException("Category name cannot be empty.");
+                throw new DomainException("Category name cannot be empty.");
             }
             if(string.IsNullOrWhiteSpace(description))
             {
-                throw new ArgumentException("Category description cannot be empty.");
+                throw new DomainException("Category description cannot be empty.");
             }
             return new Category(name, description);
         }
@@ -37,11 +38,11 @@ namespace ECommerce.Domain.Entities
         {
             if(string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentException("Category name cannot be empty.");
+                throw new DomainException("Category name cannot be empty.");
             }
             if(string.IsNullOrWhiteSpace(description))
             {
-                throw new ArgumentException("Category description cannot be empty.");
+                throw new DomainException("Category description cannot be empty.");
             }
             Name = name;
             Description = description;

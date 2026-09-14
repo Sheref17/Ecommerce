@@ -1,5 +1,6 @@
 ﻿using ECommerce.Domain.Common;
 using ECommerce.Domain.Enums;
+using ECommerce.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace ECommerce.Domain.Entities
         public static Order Create(int userId)
         {
             if (userId <= 0)
-                throw new ArgumentException("Invalid user.");
+                throw new DomainException("Invalid user.");
 
             return new Order(userId);
         }
@@ -64,7 +65,7 @@ namespace ECommerce.Domain.Entities
         public void Confirm()
         {
             if (Status != OrderStatus.Pending)
-                throw new InvalidOperationException("Only pending orders can be confirmed.");
+                throw new DomainException("Only pending orders can be confirmed.");
 
             Status = OrderStatus.Confirmed;
         }
@@ -72,7 +73,7 @@ namespace ECommerce.Domain.Entities
         public void StartProcessing()
         {
             if (Status != OrderStatus.Confirmed)
-                throw new InvalidOperationException("Only confirmed orders can start processing.");
+                throw new DomainException("Only confirmed orders can start processing.");
 
             Status = OrderStatus.Processing;
         }
@@ -80,7 +81,7 @@ namespace ECommerce.Domain.Entities
         public void Ship()
         {
             if (Status != OrderStatus.Processing)
-                throw new InvalidOperationException("Only processing orders can be shipped.");
+                throw new DomainException("Only processing orders can be shipped.");
 
             Status = OrderStatus.Shipped;
         }
@@ -88,7 +89,7 @@ namespace ECommerce.Domain.Entities
         public void Deliver()
         {
             if (Status != OrderStatus.Shipped)
-                throw new InvalidOperationException("Only shipped orders can be delivered.");
+                throw new DomainException("Only shipped orders can be delivered.");
 
             Status = OrderStatus.Delivered;
         }
@@ -96,10 +97,10 @@ namespace ECommerce.Domain.Entities
         public void Cancel()
         {
             if (Status == OrderStatus.Delivered)
-                throw new InvalidOperationException("Delivered orders cannot be cancelled.");
+                throw new DomainException("Delivered orders cannot be cancelled.");
 
             if (Status == OrderStatus.Cancelled)
-                throw new InvalidOperationException("Order is already cancelled.");
+                throw new DomainException("Order is already cancelled.");
 
             Status = OrderStatus.Cancelled;
         }

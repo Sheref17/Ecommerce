@@ -1,5 +1,6 @@
 
 using ECommerce.Application;
+using ECommerce.Exceptions;
 using ECommerce.Infrastructure;
 using ECommerce.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +20,8 @@ namespace ECommerce
             
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -34,6 +37,7 @@ namespace ECommerce
                 await IdentitySeeder.SeedRolesAsync(roleManager);
                 await IdentitySeeder.SeedAdminAsync(userManager);
             }
+     
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -41,6 +45,7 @@ namespace ECommerce
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseExceptionHandler();
 
             app.UseHttpsRedirection();
 

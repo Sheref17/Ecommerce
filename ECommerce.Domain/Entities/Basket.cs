@@ -1,4 +1,5 @@
 ﻿using ECommerce.Domain.Common;
+using ECommerce.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace ECommerce.Domain.Entities
         public static Basket Create(int userId)
         {
             if (userId <= 0)
-                throw new ArgumentException("Invalid user.");
+                throw new DomainException("Invalid user.");
 
             return new Basket(userId);
         }
