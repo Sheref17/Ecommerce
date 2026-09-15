@@ -16,16 +16,15 @@ namespace ECommerce.Infrastructure.BackgroundServices
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<DomainEventBackgroundService> _logger;
-        private readonly IPublisher _publisher;
+      
 
         public DomainEventBackgroundService(IServiceScopeFactory scopeFactory,
-            ILogger<DomainEventBackgroundService> logger,
-            IPublisher publisher
+            ILogger<DomainEventBackgroundService> logger
             )
         {
             _scopeFactory = scopeFactory;
             _logger = logger;
-            _publisher = publisher;
+            
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,11 +34,12 @@ namespace ECommerce.Infrastructure.BackgroundServices
                 using var scope = _scopeFactory.CreateScope();
                 var outboxRepository =scope.ServiceProvider
                     .GetRequiredService<IOutboxRepository>();
+
+                var publisher = scope.ServiceProvider
+                    .GetRequiredService<IPublisher>();
                 var messages = await outboxRepository.GetUnprocessedAsync(20,stoppingToken);
                 if (messages.Count == 0)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(5),stoppingToken);
-
                     continue;
                 }
                 foreach (var message in messages)
@@ -50,8 +50,12 @@ namespace ECommerce.Infrastructure.BackgroundServices
 
                         if (eventType is null)
                         {
-                            _logger.LogError("Could not resolve event type {EventType}"
-                                , message.Type);
+                            var error = $"Could not resolve event type {message.Type}";
+
+                            _logger.LogError("Outbox message {MessageId}: {Error}",message.Id,error);
+
+                            message.MarkAsFailed(error);
+                            await outboxRepository.UpdateAsync(message, stoppingToken);
 
                             continue;
                         }
@@ -59,12 +63,14 @@ namespace ECommerce.Infrastructure.BackgroundServices
 
                         if (domainEvent is not INotification notification)
                         {
-                            _logger.LogError(
-                                "Outbox message {MessageId} is not a valid notification",
-                                message.Id);
+                            var error = $"Outbox message {message.Id} is not a valid notification.";
+                            _logger.LogError("{Error}", error);
+
+                            message.MarkAsFailed(error);
+                            await outboxRepository.UpdateAsync(message, stoppingToken);
                             continue;
                         }
-                        await _publisher.Publish(notification, stoppingToken);
+                        await publisher.Publish(notification, stoppingToken);
                         message.MarkAsProcessed();
                         await outboxRepository.UpdateAsync(message, stoppingToken);
                     }
@@ -76,7 +82,7 @@ namespace ECommerce.Infrastructure.BackgroundServices
                     }
                 }
                 await scope.ServiceProvider.GetRequiredService<IUnitOfWork>()
-                    .SaveChangesAsync();
+                    .SaveChangesAsync(stoppingToken);
                 await Task.Delay(TimeSpan.FromSeconds(5),stoppingToken);
             }
         }

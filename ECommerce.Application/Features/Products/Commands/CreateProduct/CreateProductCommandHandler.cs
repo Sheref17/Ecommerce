@@ -24,8 +24,10 @@ namespace ECommerce.Application.Features.Products.Commands.CreateProduct
             var price = Money.Create(request.Price, request.Currency);
             var product = Product.Create(request.Name, request.Description, price, request.Stock, 
                 request.CategoryId, request.BrandId);
+
             await _productRepository.AddAsync(product);
             await _unitOfWork.SaveChangesAsync();
+
             return product.Id;
         }
     }
