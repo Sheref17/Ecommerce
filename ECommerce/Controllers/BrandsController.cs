@@ -1,4 +1,6 @@
 ﻿using ECommerce.Application.Features.Brands.Commands.CreateBrand;
+using ECommerce.Application.Features.Brands.Commands.UpdateBrand;
+using ECommerce.Application.Features.Brands.Dtos;
 using ECommerce.Application.Features.Brands.Queries.GetBrandById;
 using ECommerce.Application.Features.Brands.Queries.GetBrands;
 using MediatR;
@@ -49,6 +51,17 @@ namespace ECommerce.Controllers
                 return NotFound();
 
             return Ok(brand);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Update(Guid id , UpdateBrandDTO dto 
+            , CancellationToken cancellationToken)
+        {
+            var command = new UpdateBrandCommand(id, dto.Name, dto.Description);
+            await _sender.Send(command ,cancellationToken);
+            return Ok(new { message = "Brand updated successfully." });
+
         }
     }
 }

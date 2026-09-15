@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Brands.Queries.GetBrands
 {
-    public record BrandFilter(string? Search, bool? IsActive,int PageNumber = 1,int PageSize = 10);
+    public record BrandFilter(string? Search,int PageNumber = 1,int PageSize = 10);
 }

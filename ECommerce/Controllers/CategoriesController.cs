@@ -64,7 +64,7 @@ namespace ECommerce.Controllers
                 message = "Category updated successfully."
             });
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id , CancellationToken cancellationToken)
         {
