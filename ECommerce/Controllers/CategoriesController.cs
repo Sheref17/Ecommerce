@@ -1,4 +1,6 @@
 ﻿using ECommerce.Application.Features.Categories.Commands.CreateCategory;
+using ECommerce.Application.Features.Categories.Commands.UpdateCategory;
+using ECommerce.Application.Features.Categories.DTOs;
 using ECommerce.Application.Features.Categories.Queries.GetCategories;
 using ECommerce.Application.Features.Categories.Queries.GetCategoryById;
 using MediatR;
@@ -49,5 +51,18 @@ namespace ECommerce.Controllers
 
             return Ok(category);
         }
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Update(Guid id , UpdateCatgoryDto dto
+            , CancellationToken cancellationToken)
+        {
+            var command = new UpdateCategoryCommand(id, dto.name, dto.description);
+            await _sender.Send(command, cancellationToken);
+            return Ok(new
+            {
+                message = "Category updated successfully."
+            });
+        }
+
     }
 }

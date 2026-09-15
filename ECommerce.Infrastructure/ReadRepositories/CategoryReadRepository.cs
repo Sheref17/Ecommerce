@@ -26,16 +26,12 @@ namespace ECommerce.Infrastructure.ReadRepositories
         {
             var query = _context.Categories
                 .AsNoTracking()
+                .Where(c => c.IsActive == true)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(filter.Search))
                 query = query.Where(x => x.Name.Contains(filter.Search));
         
-
-            if (filter.IsActive.HasValue)
-                query = query.Where(x => x.IsActive == filter.IsActive.Value);
-          
-
             var totalCount = await query.CountAsync(cancellationToken);
 
             var items = await query
@@ -56,7 +52,7 @@ namespace ECommerce.Infrastructure.ReadRepositories
         {
             return await _context.Categories
                 .AsNoTracking()
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && x.IsActive == true)
                 .Select(x => new CategoryResponse(
                     x.Id,
                     x.Name,
