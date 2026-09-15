@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Features.Brands.Commands.CreateBrand;
+using ECommerce.Application.Features.Brands.Commands.DeleteBrand;
 using ECommerce.Application.Features.Brands.Commands.UpdateBrand;
 using ECommerce.Application.Features.Brands.Dtos;
 using ECommerce.Application.Features.Brands.Queries.GetBrandById;
@@ -63,5 +64,13 @@ namespace ECommerce.Controllers
             return Ok(new { message = "Brand updated successfully." });
 
         }
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Delete(Guid id , CancellationToken cancellationToken)
+        {
+            await _sender.Send(new DeleteBrandCommand(id), cancellationToken);
+            return Ok(new { message = "Brand Deleted successfully." });
+        }
+        
     }
 }
