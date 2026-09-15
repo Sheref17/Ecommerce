@@ -24,7 +24,8 @@ namespace ECommerce.Infrastructure.ReadRepositories
         {
             var specification = new ProductSpecification(filter);
 
-            var baseQuery = _context.Products.AsNoTracking();
+            var baseQuery = _context.Products.AsNoTracking()
+                .Where( p =>p.IsActive == true);
 
             var filteredQuery = SpecificationEvaluator.GetQuery(baseQuery, specification 
                 , applyPaging:false);
@@ -55,7 +56,7 @@ namespace ECommerce.Infrastructure.ReadRepositories
         public async Task<ProductResponse?> GetProductById(Guid id, CancellationToken cancellationToken)
         {
             return await _context.Products.AsNoTracking()
-                .Where(p=>p.Id == id)
+                .Where(p=>p.Id == id && p.IsActive == true)
                 .Select(p => new ProductResponse(
                     p.Id,
                     p.Name,

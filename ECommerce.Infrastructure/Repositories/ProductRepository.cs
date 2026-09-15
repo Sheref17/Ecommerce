@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerce.Infrastructure.ReadRepositories
+namespace ECommerce.Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository
     {
@@ -33,6 +33,6 @@ namespace ECommerce.Infrastructure.ReadRepositories
                 .ToListAsync(cancellationToken);
         }
 
-
+      
     }
 }

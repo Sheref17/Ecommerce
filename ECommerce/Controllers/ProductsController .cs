@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Features.Products.Commands.CreateProduct;
+using ECommerce.Application.Features.Products.Commands.DeleteProduct;
 using ECommerce.Application.Features.Products.Commands.UpdateProduct;
 using ECommerce.Application.Features.Products.Dtos;
 using ECommerce.Application.Features.Products.Queries.GetProductById;
@@ -19,7 +20,7 @@ namespace ECommerce.Controllers
         {
             _sender = sender;
         }
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductCommand command)
         {
@@ -51,7 +52,7 @@ namespace ECommerce.Controllers
 
             return Ok(product);
         }
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> Update(Guid id,UpdateProductDTO dto,
             CancellationToken cancellationToken)
@@ -62,6 +63,13 @@ namespace ECommerce.Controllers
             await _sender.Send(command,cancellationToken);
 
             return Ok(new{ message = "Product updated successfully."});
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new DeleteProductCommand(id), cancellationToken);
+            return Ok(new { message = "Product deleted successfully." });
         }
     }
 }
