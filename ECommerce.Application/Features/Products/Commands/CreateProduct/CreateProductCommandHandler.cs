@@ -30,11 +30,11 @@ namespace ECommerce.Application.Features.Products.Commands.CreateProduct
         public async Task<Guid> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetByIdAsync(request.CategoryId, cancellationToken);
-            if(category is null)
+            if (category is null || category.IsActive == false)
                 throw new KeyNotFoundException($"Category with id {request.CategoryId} not found.");
 
             var brand = await _brandRepository.GetByIdAsync(request.BrandId, cancellationToken);
-            if(brand is null)
+            if(brand is null || brand.IsActive == false)
                 throw new KeyNotFoundException($"Brand with id {request.BrandId} not found.");
 
             var price = Money.Create(request.Price, request.Currency);
