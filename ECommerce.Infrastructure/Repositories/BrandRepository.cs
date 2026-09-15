@@ -28,5 +28,9 @@ namespace ECommerce.Infrastructure.Repositories
         {
             return await _context.Brands.FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
         }
+        public async Task<Brand?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await _context.Brands.FirstOrDefaultAsync(b => b.Name == name, cancellationToken);
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace ECommerce.Domain.IRepositories
     {
         Task AddAsync(Category category);
         Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<Category?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
     }
 }

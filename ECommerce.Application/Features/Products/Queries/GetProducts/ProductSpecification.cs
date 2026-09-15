@@ -24,6 +24,7 @@ namespace ECommerce.Application.Features.Products.Queries.GetProducts
             product.Price.Amount <= filter.MaxPrice.Value) &&
             (!filter.IsActive.HasValue ||
             product.IsActive == filter.IsActive.Value);
+            
 
 
             ApplySorting(filter);

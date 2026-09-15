@@ -19,11 +19,15 @@ namespace ECommerce.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create( CreateCategoryCommand command)
+        public async Task<IActionResult> Create(CreateCategoryCommand command)
         {
             var categoryId = await _sender.Send(command);
 
-            return Ok(categoryId);
+            return Ok(new
+            {
+                message = "Category created successfully.",
+                Id = categoryId
+            });
         }
 
         [HttpGet]

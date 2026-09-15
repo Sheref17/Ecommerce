@@ -1,4 +1,5 @@
 ﻿using ECommerce.Domain.Entities;
+using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
@@ -20,7 +21,13 @@ namespace ECommerce.Application.Features.Brands.Commands.CreateBrand
         }
         public async Task<Guid> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
-           var brand = Brand.Create(request.Name, request.Description);
+           var existingBrand = await _brandRepository.GetByNameAsync(request.Name, cancellationToken);
+            if (existingBrand != null)
+            {
+                throw new DomainException($"A brand with the name '{request.Name}' already exists.");
+            }
+
+            var brand = Brand.Create(request.Name, request.Description);
             await _brandRepository.AddAsync(brand , cancellationToken);
             await _unitOfWork.SaveChangesAsync();
             return brand.Id;

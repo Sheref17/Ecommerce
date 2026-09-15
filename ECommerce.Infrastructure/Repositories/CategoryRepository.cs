@@ -27,5 +27,9 @@ namespace ECommerce.Infrastructure.Repositories
         {
             return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
+        public async Task<Category?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await _context.Categories.FirstOrDefaultAsync(c => c.Name == name, cancellationToken);
+        }
     }
 }

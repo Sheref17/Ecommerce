@@ -24,7 +24,11 @@ namespace ECommerce.Controllers
         {
             var brandId = await _sender.Send(command,cancellationToken);
 
-            return Ok(brandId);
+            return Ok(new
+            {
+                message = "Brand created successfully.",
+                Id = brandId
+            });
         }
 
         [HttpGet]
