@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerce.Infrastructure.Repositories
+namespace ECommerce.Infrastructure.ReadRepositories
 {
     public class ProductReadRepository : IProductReadRepository
     {

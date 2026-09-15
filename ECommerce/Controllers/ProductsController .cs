@@ -1,5 +1,6 @@
 ﻿using ECommerce.Application.Features.Products.Commands.CreateProduct;
 using ECommerce.Application.Features.Products.Commands.UpdateProduct;
+using ECommerce.Application.Features.Products.Dtos;
 using ECommerce.Application.Features.Products.Queries.GetProductById;
 using ECommerce.Application.Features.Products.Queries.GetProducts;
 using MediatR;
@@ -18,13 +19,17 @@ namespace ECommerce.Controllers
         {
             _sender = sender;
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductCommand command)
         {
             var productId = await _sender.Send(command);
 
-            return Ok(productId);
+            return Ok(new 
+            {
+                message = "Product created successfully." ,
+                Id = productId
+            });
         }
         
         [HttpGet]
@@ -46,17 +51,17 @@ namespace ECommerce.Controllers
 
             return Ok(product);
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPut("{id:Guid}")]
-        public async Task<IActionResult> Update(Guid id,UpdateProductCommand command,
+        public async Task<IActionResult> Update(Guid id,UpdateProductDTO dto,
             CancellationToken cancellationToken)
         {
-            if (id != command.id)
-                return BadRequest();
+           
+            var command = new UpdateProductCommand(id,dto.Name,dto.Description,dto.Price,dto.Currency);
 
             await _sender.Send(command,cancellationToken);
 
-            return NoContent();
+            return Ok(new{ message = "Product updated successfully."});
         }
     }
 }

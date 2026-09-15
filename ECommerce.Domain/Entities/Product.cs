@@ -3,6 +3,7 @@ using ECommerce.Domain.Events.Products;
 using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.ValueObjects;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,11 +47,12 @@ namespace ECommerce.Domain.Entities
             if (string.IsNullOrWhiteSpace(description))
                 throw new DomainException("Product description cannot be empty.");
            
-            if (stock < 0)
-                throw new DomainException("Stock cannot be negative.");
-           
+            if (stock <= 0)
+                throw new DomainException("Stock must be greater than zero.");
+
             if (categoryId == Guid.Empty)
                 throw new DomainException("Invalid category.");
+
             if (brandId == Guid.Empty)
                 throw new DomainException("Invalid brand.");
 
@@ -68,8 +70,10 @@ namespace ECommerce.Domain.Entities
            
             if (string.IsNullOrWhiteSpace(description))
                 throw new DomainException("Product description cannot be empty.");
-           
-   
+          
+            if (price.Amount <= 0)
+                throw new DomainException("Price must be greater than zero.");
+
             Name = name;
             Description = description;
             Price = price;

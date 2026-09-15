@@ -5,6 +5,7 @@ using ECommerce.Infrastructure.BackgroundServices;
 using ECommerce.Infrastructure.Identity;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Persistence.Interceptors;
+using ECommerce.Infrastructure.ReadRepositories;
 using ECommerce.Infrastructure.Repositories;
 using ECommerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -23,7 +23,7 @@ namespace ECommerce.Application.Features.Products.Commands.UpdateProduct
                 .MaximumLength(1000);
 
             RuleFor(x => x.price)
-                .GreaterThanOrEqualTo(0);
+                .GreaterThan(0);
 
             RuleFor(x => x.Currency)
                 .NotEmpty()

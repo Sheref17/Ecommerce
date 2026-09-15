@@ -20,14 +20,14 @@ namespace ECommerce.Application.Features.Products.Commands.CreateProduct
                 .MaximumLength(1000);
 
             RuleFor(x => x.Price)
-                .GreaterThanOrEqualTo(0);
+                .GreaterThan(0);
 
             RuleFor(x => x.Currency)
                 .NotEmpty()
                 .Length(3);
 
             RuleFor(x => x.Stock)
-                .GreaterThanOrEqualTo(0);
+                .GreaterThan(0);
 
             RuleFor(x => x.CategoryId)
                 .NotEmpty()

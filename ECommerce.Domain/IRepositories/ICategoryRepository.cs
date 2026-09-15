@@ -10,5 +10,6 @@ namespace ECommerce.Domain.IRepositories
     public interface ICategoryRepository
     {
         Task AddAsync(Category category);
+        Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

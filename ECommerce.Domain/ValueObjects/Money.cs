@@ -24,8 +24,8 @@ namespace ECommerce.Domain.ValueObjects
 
         public static Money Create(decimal amount, string currency)
         {
-            if (amount < 0)
-                throw new DomainException("Amount cannot be negative.");
+            if (amount <= 0)
+                throw new DomainException("Amount must be greater than zero.");
 
             if (string.IsNullOrWhiteSpace(currency))
                 throw new DomainException("Currency is required.");

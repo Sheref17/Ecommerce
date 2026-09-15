@@ -10,5 +10,6 @@ namespace ECommerce.Domain.IRepositories
     public interface IBrandRepository
     {
         Task AddAsync(Brand brand, CancellationToken cancellationToken);
+        Task<Brand?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

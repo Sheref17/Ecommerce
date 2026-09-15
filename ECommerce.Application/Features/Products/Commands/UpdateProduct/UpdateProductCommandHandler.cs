@@ -42,7 +42,7 @@ namespace ECommerce.Application.Features.Products.Commands.UpdateProduct
 
             product.Update(request.name,request.description,price);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             await _cacheService.RemoveAsync($"product:{request.id}",cancellationToken);
         }
