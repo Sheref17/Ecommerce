@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Features.Categories.Commands.CreateCategory;
+using ECommerce.Application.Features.Categories.Commands.DeleteCategory;
 using ECommerce.Application.Features.Categories.Commands.UpdateCategory;
 using ECommerce.Application.Features.Categories.DTOs;
 using ECommerce.Application.Features.Categories.Queries.GetCategories;
@@ -63,6 +64,16 @@ namespace ECommerce.Controllers
                 message = "Category updated successfully."
             });
         }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id , CancellationToken cancellationToken)
+        {
+            await _sender.Send(new DeleteCategoryCommand(id), cancellationToken);
+            return Ok(new {message = "Category deleted successfully." });
+
+        }
+
+
 
     }
 }
