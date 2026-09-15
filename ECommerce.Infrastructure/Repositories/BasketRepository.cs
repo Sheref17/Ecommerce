@@ -39,5 +39,12 @@ namespace ECommerce.Infrastructure.Repositories
 
             return Task.CompletedTask;
         }
+
+        public Task RemoveItemAsync(BasketItem item,CancellationToken cancellationToken)
+        {
+            _context.BasketItems.Remove(item);
+
+            return Task.CompletedTask;
+        }
     }
 }

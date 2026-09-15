@@ -101,7 +101,9 @@ namespace ECommerce.Exceptions
                 Status = StatusCodes.Status500InternalServerError,
                 Title = "An unexpected error occurred.",
                 Detail = "An error occurred while processing your request."
+
             };
+            
 
             httpContext.Response.StatusCode =
                 StatusCodes.Status500InternalServerError;

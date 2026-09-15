@@ -14,5 +14,6 @@ namespace ECommerce.Domain.IRepositories
         Task<Basket?> GetByUserIdAsync(int userId,CancellationToken cancellationToken);
 
         Task DeleteAsync(Basket basket,CancellationToken cancellationToken);
+        Task RemoveItemAsync(BasketItem item,CancellationToken cancellationToken);
     }
 }

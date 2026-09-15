@@ -32,6 +32,7 @@ namespace ECommerce.Domain.Entities
                 throw new DomainException("Quantity must be greater than zero.");
 
             return new BasketItem(productId,quantity);
+
         }
 
         public void IncreaseQuantity(int quantity)

@@ -65,7 +65,7 @@ namespace ECommerce.Application.Features.Baskets.Commands.AddItemToBasket
 
             basket.AddItem(request.ProductId,request.Quantity);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.Exceptions;
+﻿using ECommerce.Application.Abstractions.Services;
+using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.IRepositories;
 using MediatR;
 using System;
@@ -14,27 +15,35 @@ namespace ECommerce.Application.Features.Baskets.Commands.UpdateBasketItemQuanti
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IProductRepository _productRepository;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IUnitOfWork _unitOfWork;
 
         public UpdateBasketItemQuantityCommandHandler(
             IBasketRepository basketRepository,
             IProductRepository productRepository,
+            ICurrentUserService currentUserService,
             IUnitOfWork unitOfWork)
         {
             _basketRepository = basketRepository;
             _productRepository = productRepository;
+            _currentUserService = currentUserService;
             _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(UpdateBasketItemQuantityCommand request,
             CancellationToken cancellationToken)
         {
-            var basket = await _basketRepository.GetByUserIdAsync(request.UserId,
+            var userId = _currentUserService.UserId;
+            if (userId is null)
+                throw new UnauthorizedAccessException($"User is not authenticated.");
+
+            var basket = await _basketRepository.GetByUserIdAsync(userId.Value,
                 cancellationToken);
+           
 
             if (basket is null)
                 throw new KeyNotFoundException(
-                    $"Basket for user {request.UserId} was not found.");
+                    $"Basket for user {userId} was not found.");
 
             var product = await _productRepository.GetByIdAsync(request.ProductId,
                 cancellationToken);

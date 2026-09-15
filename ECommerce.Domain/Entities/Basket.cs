@@ -1,74 +1,74 @@
-﻿using ECommerce.Domain.Common;
-using ECommerce.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿    using ECommerce.Domain.Common;
+    using ECommerce.Domain.Exceptions;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-namespace ECommerce.Domain.Entities
-{
-    public class Basket : BaseEntity
+    namespace ECommerce.Domain.Entities
     {
-        public int UserId { get; private set; }
-
-        private readonly List<BasketItem> _items = [];
-
-        public IReadOnlyCollection<BasketItem> Items => _items.AsReadOnly();
-
-        private Basket(){}
-
-        private Basket(int userId)
+        public class Basket : BaseEntity
         {
-            Id = Guid.NewGuid();
-            UserId = userId;
-        }
+            public int UserId { get; private set; }
 
-        public static Basket Create(int userId)
-        {
-            if (userId <= 0)
-                throw new DomainException("Invalid user.");
+            private readonly List<BasketItem> _items = [];
 
-            return new Basket(userId);
-        }
+            public IReadOnlyCollection<BasketItem> Items => _items.AsReadOnly();
 
-        public void AddItem(Guid productId,int quantity)
-        {
-            var existingItem = _items.FirstOrDefault(x => x.ProductId == productId);
+            private Basket(){}
 
-            if (existingItem is not null)
+            private Basket(int userId)
             {
-                existingItem.IncreaseQuantity(quantity);
-                return;
+                Id = Guid.NewGuid();
+                UserId = userId;
             }
 
-            var item = BasketItem.Create(productId,quantity);
+            public static Basket Create(int userId)
+            {
+                if (userId <= 0)
+                    throw new DomainException("Invalid user.");
 
-            _items.Add(item);
-        }
+                return new Basket(userId);
+            }
 
-        public void RemoveItem(Guid productId)
-        {
-            var item = _items.FirstOrDefault(x => x.ProductId == productId);
+            public void AddItem(Guid productId,int quantity)
+            {
+                var existingItem = _items.FirstOrDefault(x => x.ProductId == productId);
 
-            if (item is null)
-                return;
+                if (existingItem is not null)
+                {
+                    existingItem.IncreaseQuantity(quantity);
+                    return;
+                }
 
-            _items.Remove(item);
-        }
+                var item = BasketItem.Create(productId,quantity);
 
-        public void UpdateItemQuantity(Guid productId,int quantity)
-        {
-            var item = _items.FirstOrDefault(x => x.ProductId == productId);
+                _items.Add(item);
+            }
 
-            if (item is null)
-                throw new KeyNotFoundException($"Product with id {productId} was not found in the basket.");
+            public void RemoveItem(Guid productId)
+            {
+                var item = _items.FirstOrDefault(x => x.ProductId == productId);
 
-            item.UpdateQuantity(quantity);
-        }
-        public void Clear()
-        {
-            _items.Clear();
+                if (item is null)
+                    return;
+
+                _items.Remove(item);
+            }
+
+            public void UpdateItemQuantity(Guid productId,int quantity)
+            {
+                var item = _items.FirstOrDefault(x => x.ProductId == productId);
+
+                if (item is null)
+                    throw new KeyNotFoundException($"Product with id {productId} was not found in the basket.");
+
+                item.UpdateQuantity(quantity);
+            }
+            public void Clear()
+            {
+                _items.Clear();
+            }
         }
     }
-}

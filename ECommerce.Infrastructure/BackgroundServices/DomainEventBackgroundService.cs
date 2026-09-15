@@ -40,6 +40,7 @@ namespace ECommerce.Infrastructure.BackgroundServices
                 var messages = await outboxRepository.GetUnprocessedAsync(20,stoppingToken);
                 if (messages.Count == 0)
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
                     continue;
                 }
                 foreach (var message in messages)

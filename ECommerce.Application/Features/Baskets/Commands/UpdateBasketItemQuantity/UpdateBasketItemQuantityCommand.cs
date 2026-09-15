@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Baskets.Commands.UpdateBasketItemQuantity
 {
-    public record UpdateBasketItemQuantityCommand(int UserId,Guid ProductId,int Quantity)
+    public record UpdateBasketItemQuantityCommand(Guid ProductId,int Quantity)
         : IRequest;
 }

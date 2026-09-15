@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Baskets.Commands.ClearBasket
 {
-    public record ClearBasketCommand(int UserId) : IRequest;
+    public record ClearBasketCommand : IRequest;
 }
