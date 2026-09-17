@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Abstractions.Services
 {
-    public interface IPaymentService
+    public interface IPaymobWebhookService
     {
-        Task<string> ProcessPaymentAsync(PaymentRequest paymentRequest, CancellationToken cancellationToken);
+        bool VerifyHmac(PaymobWebhookRequest request);
+        Guid GetOrderId(PaymobWebhookRequest request);
     }
 }

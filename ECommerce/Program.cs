@@ -16,8 +16,14 @@ namespace ECommerce
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            
+            builder.Services.AddControllers(options =>
+            {
+            })
+.ConfigureApiBehaviorOptions(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

@@ -14,20 +14,22 @@ namespace ECommerce.Domain.Entities
         public Guid OrderId { get; private set; }
         public decimal Amount { get; private set; }
         public PaymentStatus Status { get; private set; }
+        public PaymentMethod PaymentMethod { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
         private Payment() { }
 
-        private Payment(Guid orderId,decimal amount)
+        private Payment(Guid orderId,decimal amount, PaymentMethod paymentMethod)
         {
-            Id= Guid.NewGuid();
+            Id = Guid.NewGuid();
             OrderId = orderId;
             Amount = amount;
             Status = PaymentStatus.Pending;
+            PaymentMethod = paymentMethod;
             CreatedAt = DateTime.UtcNow;
         }
 
-        public static Payment Create(Guid orderId,decimal amount)
+        public static Payment Create(Guid orderId, decimal amount , PaymentMethod paymentMethod)
         {
             if (orderId == Guid.Empty)
                 throw new DomainException("Invalid order.");
@@ -36,7 +38,7 @@ namespace ECommerce.Domain.Entities
                 throw new DomainException(
                     "Payment amount must be greater than zero.");
 
-            return new Payment(orderId, amount);
+            return new Payment(orderId, amount, paymentMethod);
         }
 
         public void MarkAsPaid()

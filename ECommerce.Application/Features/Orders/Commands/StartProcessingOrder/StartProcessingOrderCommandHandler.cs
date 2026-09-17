@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Features.Orders.Commands.StartProcessingOrder
 {
-
     public class StartProcessingOrderCommandHandler : IRequestHandler<StartProcessingOrderCommand>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public StartProcessingOrderCommandHandler(IOrderRepository orderRepository,IUnitOfWork unitOfWork)
+        public StartProcessingOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork)
         {
             _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
@@ -23,7 +22,7 @@ namespace ECommerce.Application.Features.Orders.Commands.StartProcessingOrder
         public async Task Handle(StartProcessingOrderCommand request,
             CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetByIdAsync(request.OrderId,cancellationToken);
+            var order = await _orderRepository.GetByIdAsync(request.OrderId, cancellationToken);
 
             if (order is null)
                 throw new KeyNotFoundException(

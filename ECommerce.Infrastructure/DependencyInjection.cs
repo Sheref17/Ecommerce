@@ -84,7 +84,8 @@ namespace ECommerce.Infrastructure
 
             services.AddScoped< ICurrentUserService,CurrentUserService>();
             services.AddScoped<IPaymentRepository,PaymentRepository>();
-            services.AddScoped<IPaymentService,PaymentService>();
+            services.AddHttpClient<IPaymentService, PaymobPaymentService>();
+            services.AddScoped<IPaymobWebhookService, PaymobWebhookService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer
